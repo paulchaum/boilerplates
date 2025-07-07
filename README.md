@@ -20,16 +20,16 @@
 4. Start Postgres
     ```bash
     docker run \
-    -it \
-    --rm \
-    --name my-new-project-db \
-    -p 5433:5432 \
-    -e POSTGRES_USER=postgres \
-    -e POSTGRES_PASSWORD=postgres \
-    -e POSTGRES_DB=my-new-project \
-    -v /home/paul/ignore_backup/my-new-project-db/data:/var/lib/postgresql/data \
-    postgres:latest \
-    -c log_statement=all
+        -it \
+        --rm \
+        --name my-new-project-db \
+        -p 5433:5432 \
+        -e POSTGRES_USER=postgres \
+        -e POSTGRES_PASSWORD=postgres \
+        -e POSTGRES_DB=my-new-project \
+        -v /home/paul/ignore_backup/my-new-project-db/data:/var/lib/postgresql/data \
+        postgres:latest \
+        -c log_statement=all
     ```
 5. Apply migrations
     ```bash
