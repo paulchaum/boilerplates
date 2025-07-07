@@ -1,6 +1,7 @@
 import { Link } from '@tanstack/react-router'
 import { authClient } from '~/lib/auth-client'
 import { ThemeToggle } from './theme-toggle'
+import { Profile } from './Profile'
 
 export function Navigation() {
   // Use Better Auth's useSession hook to get the current session
@@ -11,17 +12,24 @@ export function Navigation() {
 
   if (isPending) {
     return (
-      <div className="p-2 flex gap-2 text-lg">
-        <Link
-          to="/"
-          activeProps={{
-            className: 'font-bold',
-          }}
-          activeOptions={{ exact: true }}
-        >
-          Home
-        </Link>
-        <span>Loading...</span>
+      <div className="p-4 flex justify-between items-center border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+        <div className="flex gap-6 items-center">
+          <Link
+            to="/"
+            activeProps={{
+              className: 'font-bold text-primary',
+            }}
+            activeOptions={{ exact: true }}
+            className="text-lg font-medium hover:text-primary transition-colors"
+          >
+            Home
+          </Link>
+        </div>
+        
+        <div className="flex gap-3 items-center">
+          <span className="text-sm text-muted-foreground">Loading...</span>
+          <ThemeToggle />
+        </div>
       </div>
     )
   }
@@ -31,37 +39,36 @@ export function Navigation() {
   }
 
   return (
-    <div className="p-2 flex gap-2 text-lg">
-      <Link
-        to="/"
-        activeProps={{
-          className: 'font-bold',
-        }}
-        activeOptions={{ exact: true }}
-      >
-        Home
-      </Link>{' '}
-      {isLoggedIn ? (
-        <>
-          <span>Welcome, {session.user.name || session.user.email}!</span>
-          <button 
-            onClick={() => authClient.signOut()}
-            className="ml-2 text-blue-600 hover:underline"
-          >
-            Sign Out
-          </button>
-        </>
-      ) : (
+    <div className="p-4 flex justify-between items-center border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+      <div className="flex gap-6 items-center">
         <Link
-          to="/signin"
+          to="/"
           activeProps={{
-            className: 'font-bold',
+            className: 'font-bold text-primary',
           }}
+          activeOptions={{ exact: true }}
+          className="text-lg font-medium hover:text-primary transition-colors"
         >
-          Sign In
+          Home
         </Link>
-      )}
-      <ThemeToggle />
+      </div>
+      
+      <div className="flex gap-3 items-center">
+        {isLoggedIn ? (
+          <Profile user={session.user} />
+        ) : (
+          <Link
+            to="/signin"
+            activeProps={{
+              className: 'font-bold',
+            }}
+            className="text-sm font-medium hover:text-primary transition-colors"
+          >
+            Sign In
+          </Link>
+        )}
+        <ThemeToggle />
+      </div>
     </div>
   )
 } 
