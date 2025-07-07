@@ -9,7 +9,10 @@
     "start": "node .output/server/index.mjs"
   },
   "dependencies": {
+    "@radix-ui/react-label": "^2.1.7",
+    "@radix-ui/react-slot": "^1.2.3",
     "@tailwindcss/postcss": "^4.1.11",
+    "@tanstack/react-query": "^5.81.5",
     "@tanstack/react-router": "^1.125.4",
     "@tanstack/react-router-devtools": "^1.125.4",
     "@tanstack/react-start": "^1.125.5",
