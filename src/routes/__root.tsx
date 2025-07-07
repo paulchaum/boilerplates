@@ -2,6 +2,7 @@
 import { QueryClient } from '@tanstack/react-query'
 import {
   HeadContent,
+  Outlet,
   Scripts,
   createRootRouteWithContext,
 } from '@tanstack/react-router'
@@ -13,6 +14,8 @@ import { Navigation } from '~/components/Navigation'
 import { authQueries } from '~/services/queries'
 import appCss from '~/styles/app.css?url'
 import { seo } from '~/utils/seo'
+import { getThemeServerFn } from '~/lib/theme'
+import { ThemeProvider, useTheme } from '~/components/theme-provider'
 
 export const Route = createRootRouteWithContext<{
   queryClient: QueryClient
@@ -66,14 +69,28 @@ export const Route = createRootRouteWithContext<{
       },
     ],
   }),
+  loader: () => getThemeServerFn(),
   errorComponent: DefaultCatchBoundary,
   notFoundComponent: () => <NotFound />,
-  shellComponent: RootDocument,
-})
+  shellComponent: RootComponent,
+});
+
+function RootComponent() {
+  const data = Route.useLoaderData();
+  return (
+    <ThemeProvider theme={data}>
+      <RootDocument>
+        <Outlet />
+      </RootDocument>
+    </ThemeProvider>
+  )
+}
 
 function RootDocument({ children }: { children: React.ReactNode }) {
+  const { theme } = useTheme();
+  
   return (
-    <html>
+    <html className={theme} suppressHydrationWarning>
       <head>
         <HeadContent />
       </head>

@@ -1,7 +1,6 @@
-'use client'
-
 import { Link } from '@tanstack/react-router'
 import { authClient } from '~/lib/auth-client'
+import { ThemeToggle } from './theme-toggle'
 
 export function Navigation() {
   // Use Better Auth's useSession hook to get the current session
@@ -62,6 +61,7 @@ export function Navigation() {
           Sign In
         </Link>
       )}
+      <ThemeToggle />
     </div>
   )
 } 
