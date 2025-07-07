@@ -27,10 +27,12 @@
         -e POSTGRES_USER=postgres \
         -e POSTGRES_PASSWORD=postgres \
         -e POSTGRES_DB=my-new-project \
-        -v /home/paul/ignore_backup/my-new-project-db/data:/var/lib/postgresql/data \
+        -v /path/to/db/data:/var/lib/postgresql/data \
         postgres:latest \
         -c log_statement=all
     ```
+    `/path/to/db/data` is the path to the directory where the database data will be stored.
+    It must be outside of the project directory.
 5. Apply migrations
     ```bash
     npx drizzle-kit migrate
