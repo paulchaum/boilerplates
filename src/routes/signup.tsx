@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { createFileRoute, redirect, Link } from "@tanstack/react-router";
 import { authClient } from "~/lib/auth-client";
 import { useState } from "react";
@@ -7,8 +6,17 @@ import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "~/components/ui/card";
 
+type SearchParams = {
+  redirectTo?: string;
+};
+
 export const Route = createFileRoute("/signup")({
   component: SignUpPage,
+  validateSearch: (search: Record<string, unknown>): SearchParams => {
+    return {
+      redirectTo: typeof search.redirectTo === 'string' ? search.redirectTo : undefined,
+    };
+  },
   beforeLoad: async ({ context }) => {
     if (context.userSession) {
       throw redirect({
@@ -25,6 +33,9 @@ function SignUpPage() {
   const [name, setName] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  
+  // Get the search parameters from the route
+  const { redirectTo } = Route.useSearch();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -42,7 +53,7 @@ function SignUpPage() {
         email,
         password,
         name,
-        callbackURL: "/", // redirect after sign up
+        callbackURL: redirectTo || "/", // redirect to origin page or home
       });
       console.log("response", response);
 
@@ -137,6 +148,7 @@ function SignUpPage() {
                 Already have an account?{" "}
                 <Link 
                   to="/signin"
+                  search={{ redirectTo }}
                   className="font-medium text-primary hover:underline"
                 >
                   Sign in

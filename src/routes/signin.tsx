@@ -6,8 +6,17 @@ import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "~/components/ui/card";
 
+type SearchParams = {
+  redirectTo?: string;
+};
+
 export const Route = createFileRoute("/signin")({
   component: SignInPage,
+  validateSearch: (search: Record<string, unknown>): SearchParams => {
+    return {
+      redirectTo: typeof search.redirectTo === 'string' ? search.redirectTo : undefined,
+    };
+  },
   beforeLoad: async ({ context }) => {
     if (context.userSession) {
       throw redirect({
@@ -22,6 +31,9 @@ function SignInPage() {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  
+  // Get the search parameters from the route
+  const { redirectTo } = Route.useSearch();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -32,7 +44,7 @@ function SignInPage() {
       const response = await authClient.signIn.email({
         email,
         password,
-        callbackURL: "/", // redirect after sign in
+        callbackURL: redirectTo || "/", // redirect to origin page or home
       });
       console.log("response", response);
 
@@ -103,6 +115,7 @@ function SignInPage() {
                 Don't have an account?{" "}
                 <Link 
                   to="/signup"
+                  search={{ redirectTo }}
                   className="font-medium text-primary hover:underline"
                 >
                   Sign up

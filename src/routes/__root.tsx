@@ -16,8 +16,7 @@ import appCss from '~/styles/app.css?url'
 import { seo } from '~/utils/seo'
 import { getThemeServerFn } from '~/lib/theme'
 import { ThemeProvider, useTheme } from '~/components/theme-provider'
-import { HomeIcon, InfoIcon } from 'lucide-react'
-import { Header } from '~/components/layouts/Header'
+import { HomeIcon, LockIcon } from 'lucide-react'
 
 export const Route = createRootRouteWithContext<{
   queryClient: QueryClient
@@ -93,7 +92,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
 
   const links = [
     { to: '/', label: 'Home', icon: <HomeIcon /> },
-    { to: '/about', label: 'About', icon: <InfoIcon /> },
+    { to: '/protected', label: 'Protected', icon: <LockIcon /> },
   ]
 
   const LayoutComponent = Sidebar
