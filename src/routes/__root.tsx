@@ -96,7 +96,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
     { to: '/about', label: 'About', icon: <InfoIcon /> },
   ]
 
-  const LayoutComponent = Header
+  const LayoutComponent = Sidebar
   
   return (
     <html className={theme} suppressHydrationWarning>
