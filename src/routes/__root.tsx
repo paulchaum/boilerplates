@@ -10,12 +10,14 @@ import { TanStackRouterDevtools } from '@tanstack/react-router-devtools'
 import * as React from 'react'
 import { DefaultCatchBoundary } from '~/components/DefaultCatchBoundary'
 import { NotFound } from '~/components/NotFound'
-import { Navigation } from '~/components/Navigation'
+import { Sidebar } from '~/components/layouts/Sidebar'
 import { authQueries } from '~/services/queries'
 import appCss from '~/styles/app.css?url'
 import { seo } from '~/utils/seo'
 import { getThemeServerFn } from '~/lib/theme'
 import { ThemeProvider, useTheme } from '~/components/theme-provider'
+import { HomeIcon, InfoIcon } from 'lucide-react'
+import { Header } from '~/components/layouts/Header'
 
 export const Route = createRootRouteWithContext<{
   queryClient: QueryClient
@@ -88,6 +90,13 @@ function RootComponent() {
 
 function RootDocument({ children }: { children: React.ReactNode }) {
   const { theme } = useTheme();
+
+  const links = [
+    { to: '/', label: 'Home', icon: <HomeIcon /> },
+    { to: '/about', label: 'About', icon: <InfoIcon /> },
+  ]
+
+  const LayoutComponent = Header
   
   return (
     <html className={theme} suppressHydrationWarning>
@@ -95,9 +104,9 @@ function RootDocument({ children }: { children: React.ReactNode }) {
         <HeadContent />
       </head>
       <body>
-        <Navigation />
-        <hr />
-        {children}
+        <LayoutComponent links={links}>
+          {children}
+        </LayoutComponent>
         <TanStackRouterDevtools position="bottom-right" />
         <Scripts />
       </body>
