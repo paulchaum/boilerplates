@@ -14,9 +14,9 @@ Replace `<directory>` with the boilerplate name and `<output_dir>` with your des
 
 ## 📋 Available Boilerplates
 
-| Name | Description | README | GitPick Command |
-|------|-------------|--------|-----------------|
-| **TanStack Full-Stack** | Modern React app with TanStack Start, authentication, PostgreSQL, and Shadcn/ui | [Open](./tanstack/README.md) | `npx gitpick https://github.com/paulchaum/boilerplates/tree/main/tanstack my-app` |
+| Name | Description | README |
+|------|-------------|--------|
+| **TanStack Full-Stack** | Modern React app with TanStack Start, authentication, PostgreSQL, and Shadcn/ui | [Open](./tanstack/README.md) |
 
 
 ## 🤝 Contributing

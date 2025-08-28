@@ -12,6 +12,9 @@
 ## How to run
 
 1. Clone the repository
+    ```bash
+    npx gitpick https://github.com/paulchaum/boilerplates/tree/main/tanstack my-app
+    ```
 2. Install dependencies
     ```bash
     pnpm install
