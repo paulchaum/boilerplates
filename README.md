@@ -1,54 +1,41 @@
-# Tanstack Boilerplate
+# 🚀 Boilerplates Collection
 
-## Stack
+A curated collection of production-ready boilerplates for various tech stacks and use cases. Each boilerplate is designed to help you kickstart your projects with modern best practices, proper tooling, and clean architecture.
 
-- Tanstack start
-- Shadcn UI
-- Tailwind CSS
-- Lucide Icons
-- Better Auth
-- Tanstack Query
+## 📦 Installation
 
-## How to run
+Use [gitpick](https://github.com/GitPick/gitpick) to quickly install any boilerplate into your project:
 
-1. Clone the repository
-2. Install dependencies
-    ```bash
-    pnpm install
-    ```
-3. Copy `.env.example` to `.env` and fill in the values
-4. Start Postgres
-    ```bash
-    docker run \
-        -it \
-        --rm \
-        --name my-new-project-db \
-        -p 5433:5432 \
-        -e POSTGRES_USER=postgres \
-        -e POSTGRES_PASSWORD=postgres \
-        -e POSTGRES_DB=my-new-project \
-        -v /path/to/db/data:/var/lib/postgresql/data \
-        postgres:latest \
-        -c log_statement=all
-    ```
-    `/path/to/db/data` is the path to the directory where the database data will be stored.
-    It must be outside of the project directory.
-5. Apply migrations
-    ```bash
-    npx drizzle-kit migrate
-    ```
-6. Start the server
-    ```bash
-    pnpm dev
-    ```
+```bash
+npx gitpick https://github.com/paulchaum/boilerplates/tree/main/<directory> <output_dir>
+```
 
-## How to migrate
+Replace `<directory>` with the boilerplate name and `<output_dir>` with your desired project directory.
 
-1. Add a new migration
-    ```bash
-    npx drizzle-kit generate --name <migration-name>
-    ```
-2. Run the migration
-    ```bash
-    npx drizzle-kit migrate
-    ```
+## 📋 Available Boilerplates
+
+| Name | Description | README | GitPick Command |
+|------|-------------|--------|-----------------|
+| **TanStack Full-Stack** | Modern React app with TanStack Start, authentication, PostgreSQL, and Shadcn/ui | [Open](./tanstack/README.md) | `npx gitpick https://github.com/paulchaum/boilerplates/tree/main/tanstack my-app` |
+
+
+## 🤝 Contributing
+
+Contributions are welcome! If you have ideas for new boilerplates or improvements to existing ones:
+
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Submit a pull request
+
+## 📄 License
+
+This project is open source and available under the [MIT License](LICENSE).
+
+## ⭐ Support
+
+If you find these boilerplates helpful, please consider giving the repository a star! It helps others discover these resources.
+
+---
+
+**Happy coding!** 🎉
