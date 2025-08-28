@@ -14,9 +14,9 @@ Replace `<directory>` with the boilerplate name and `<output_dir>` with your des
 
 ## 📋 Available Boilerplates
 
-| Name | Description | README |
+| Name | Description | Open |
 |------|-------------|--------|
-| **TanStack Full-Stack** | Modern React app with TanStack Start, authentication, PostgreSQL, and Shadcn/ui | [Open](./tanstack/README.md) |
+| **TanStack Full-Stack** | Modern React app with TanStack Start, authentication, PostgreSQL, and Shadcn/ui | [Open](./tanstack/) |
 
 
 ## 🤝 Contributing
