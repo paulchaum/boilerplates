@@ -1,4 +1,4 @@
-import { auth } from '~/lib/auth/auth'
+import { auth } from '~/lib/auth/auth-server'
 import { createServerFileRoute } from '@tanstack/react-start/server'
  
 export const ServerRoute = createServerFileRoute('/api/auth/$').methods({
