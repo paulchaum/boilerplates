@@ -1,4 +1,4 @@
-import { createFileRoute, redirect, Link } from "@tanstack/react-router";
+import { createFileRoute, redirect, Link, useRouter } from "@tanstack/react-router";
 import { authClient } from "~/lib/auth-client";
 import { useState } from "react";
 import { Button } from "~/components/ui/button";
@@ -36,6 +36,7 @@ function SignUpPage() {
   
   // Get the search parameters from the route
   const { redirectTo } = Route.useSearch();
+  const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -59,6 +60,9 @@ function SignUpPage() {
 
       if (response.error) {
         setError(response.error.message || "Failed to create account. Please try again.");
+      } else {
+        // Manually redirect after successful signup
+        router.navigate({ to: redirectTo || "/" });
       }
     } catch (err) {
       console.error("Sign up error:", err);
