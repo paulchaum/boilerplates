@@ -8,7 +8,7 @@ import {
   DropdownMenuTrigger,
 } from './ui/dropdown-menu'
 import { Button } from './ui/button'
-import { authClient } from '~/lib/auth-client'
+import { authClient } from '~/lib/auth/auth-client'
 import { LogOut, User } from 'lucide-react'
 
 interface ProfileProps {

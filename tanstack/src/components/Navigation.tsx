@@ -1,5 +1,5 @@
 import { Link } from '@tanstack/react-router'
-import { authClient } from '~/lib/auth-client'
+import { authClient } from '~/lib/auth/auth-client'
 import { ThemeToggle } from './theme-toggle'
 import { Profile } from './Profile'
 

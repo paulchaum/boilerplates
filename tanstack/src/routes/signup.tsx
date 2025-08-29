@@ -1,5 +1,5 @@
 import { createFileRoute, redirect, Link, useRouter } from "@tanstack/react-router";
-import { authClient } from "~/lib/auth-client";
+import { authClient } from "~/lib/auth/auth-client";
 import { useState } from "react";
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
