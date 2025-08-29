@@ -17,6 +17,7 @@ import { seo } from '~/lib/seo'
 import { getThemeServerFn } from '~/lib/theme'
 import { ThemeProvider, useTheme } from '~/components/theme-provider'
 import { HomeIcon, LockIcon } from 'lucide-react'
+import { Toaster } from '~/components/ui/sonner'
 
 export const Route = createRootRouteWithContext<{
   queryClient: QueryClient
@@ -106,6 +107,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
         </LayoutComponent>
         <TanStackRouterDevtools position="bottom-right" />
         <Scripts />
+        <Toaster />
       </body>
     </html>
   )

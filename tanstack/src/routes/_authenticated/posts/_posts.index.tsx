@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query'
 import { createFileRoute } from '@tanstack/react-router'
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '~/components/ui/card'
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '~/components/ui/card'
 import { postsQueries, useCreatePost } from '~/features/posts/queries'
 import { createPostSchema, CreatePostSchema } from '~/features/posts/validation'
 import { authClient } from '~/lib/auth/auth-client'
@@ -10,6 +10,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import { Input } from '~/components/ui/input'
 import { Button } from '~/components/ui/button'
 import { Textarea } from '~/components/ui/textarea'
+import { toast } from 'sonner'
 
 export const Route = createFileRoute('/_authenticated/posts/_posts/')({
   component: RouteComponent,
@@ -25,8 +26,6 @@ function RouteComponent() {
     })
   )
 
-  const { mutate: createPost, isPending } = useCreatePost();
-
   const form = useForm<CreatePostSchema>({
     resolver: zodResolver(createPostSchema),
     defaultValues: {
@@ -35,8 +34,22 @@ function RouteComponent() {
     },
   });
 
+  const {
+    mutate: createPost,
+    isPending,
+    error: createPostError,
+  } = useCreatePost();
+
   const onSubmit = (data: CreatePostSchema) => {
-    createPost(data);
+    createPost(data, {
+      onSuccess: () => {
+        form.reset();
+        toast.success('Post created successfully!');
+      },
+      onError: (error) => {
+        toast.error(`Failed to create post: ${error.message}`);
+      }
+    });
   }
 
   return (
@@ -80,6 +93,9 @@ function RouteComponent() {
             </form>
           </Form>
         </CardContent>
+        <CardFooter>
+
+        </CardFooter>
       </Card>
 
 
@@ -89,16 +105,19 @@ function RouteComponent() {
         <div>
           <h2 className="text-2xl font-bold mb-4">Posts</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {postsResponse.map((post) => (
-              <Card key={post.id}>
-                <CardHeader>
-                  <CardTitle>{post.title}</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p>{post.content}</p>
-                </CardContent>
-              </Card>
-            ))}
+            {postsResponse
+              .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+              .map((post) => (
+                <Card key={post.id}>
+                  <CardHeader>
+                    <CardTitle>{post.title}</CardTitle>
+                    <CardDescription>{post.createdAt.toLocaleString()}</CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <p>{post.content}</p>
+                  </CardContent>
+                </Card>
+              ))}
           </div>
         </div>
       )}
