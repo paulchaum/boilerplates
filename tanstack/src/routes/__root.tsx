@@ -1,5 +1,5 @@
 /// <reference types="vite/client" />
-import { QueryClient } from '@tanstack/react-query'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import {
   HeadContent,
   Outlet,
@@ -72,12 +72,16 @@ export const Route = createRootRouteWithContext<{
 
 function RootComponent() {
   const data = Route.useLoaderData();
+  const { queryClient } = Route.useRouteContext();
+  
   return (
-    <ThemeProvider theme={data}>
-      <RootDocument>
-        <Outlet />
-      </RootDocument>
-    </ThemeProvider>
+    <QueryClientProvider client={queryClient}>
+      <ThemeProvider theme={data}>
+        <RootDocument>
+          <Outlet />
+        </RootDocument>
+      </ThemeProvider>
+    </QueryClientProvider>
   )
 }
 

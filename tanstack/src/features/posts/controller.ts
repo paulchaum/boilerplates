@@ -7,6 +7,10 @@ export const createPost = async (newPost: PostInsert) => {
     return await db.insert(post).values(newPost).returning();
 }
 
-export const getUserPosts = async (userId: string) => {
-    return await db.select().from(post).where(eq(post.createdByUserId, userId));
+export interface GetUserPostsParams {
+    userId: string;
+}
+
+export const getUserPosts = async (params: GetUserPostsParams) => {
+    return await db.select().from(post).where(eq(post.createdByUserId, params.userId));
 }
