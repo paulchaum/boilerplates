@@ -40,7 +40,7 @@ function RouteComponent() {
   }
 
   return (
-    <div>
+    <div className="space-y-8">
       <Card>
         <CardHeader>
           <CardTitle>Create Post</CardTitle>
@@ -85,7 +85,23 @@ function RouteComponent() {
 
       {isLoading && <div>Loading...</div>}
       {error && <div>Error: {error.message}</div>}
-      {postsResponse && <div>Posts: {postsResponse.length}</div>}
+      {postsResponse && (
+        <div>
+          <h2 className="text-2xl font-bold mb-4">Posts</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {postsResponse.map((post) => (
+              <Card key={post.id}>
+                <CardHeader>
+                  <CardTitle>{post.title}</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p>{post.content}</p>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   )
 }
