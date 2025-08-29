@@ -110,8 +110,15 @@ function RouteComponent() {
               .map((post) => (
                 <Card key={post.id}>
                   <CardHeader>
-                    <CardTitle>{post.title}</CardTitle>
-                    <CardDescription>{post.createdAt.toLocaleString()}</CardDescription>
+                    <CardTitle className="flex justify-between">
+                      <span>{post.title}</span>
+                      <span className="text-sm text-gray-500">
+                        {post.createdByUser.name}
+                      </span>
+                    </CardTitle>
+                    <CardDescription>
+                      {post.createdAt.toLocaleString()}
+                    </CardDescription>
                   </CardHeader>
                   <CardContent>
                     <p>{post.content}</p>
