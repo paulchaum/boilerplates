@@ -13,8 +13,9 @@ import { createServerRootRoute } from '@tanstack/react-start/server'
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as SignupRouteImport } from './routes/signup'
 import { Route as SigninRouteImport } from './routes/signin'
-import { Route as ProtectedRouteImport } from './routes/protected'
+import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AuthenticatedProtectedRouteImport } from './routes/_authenticated/protected'
 import { ServerRoute as ApiAuthSplatServerRouteImport } from './routes/api/auth/$'
 
 const rootServerRouteImport = createServerRootRoute()
@@ -29,15 +30,19 @@ const SigninRoute = SigninRouteImport.update({
   path: '/signin',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ProtectedRoute = ProtectedRouteImport.update({
-  id: '/protected',
-  path: '/protected',
+const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
+  id: '/_authenticated',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedProtectedRoute = AuthenticatedProtectedRouteImport.update({
+  id: '/protected',
+  path: '/protected',
+  getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const ApiAuthSplatServerRoute = ApiAuthSplatServerRouteImport.update({
   id: '/api/auth/$',
@@ -47,34 +52,41 @@ const ApiAuthSplatServerRoute = ApiAuthSplatServerRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/protected': typeof ProtectedRoute
   '/signin': typeof SigninRoute
   '/signup': typeof SignupRoute
+  '/protected': typeof AuthenticatedProtectedRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/protected': typeof ProtectedRoute
   '/signin': typeof SigninRoute
   '/signup': typeof SignupRoute
+  '/protected': typeof AuthenticatedProtectedRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/protected': typeof ProtectedRoute
+  '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/signin': typeof SigninRoute
   '/signup': typeof SignupRoute
+  '/_authenticated/protected': typeof AuthenticatedProtectedRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/protected' | '/signin' | '/signup'
+  fullPaths: '/' | '/signin' | '/signup' | '/protected'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/protected' | '/signin' | '/signup'
-  id: '__root__' | '/' | '/protected' | '/signin' | '/signup'
+  to: '/' | '/signin' | '/signup' | '/protected'
+  id:
+    | '__root__'
+    | '/'
+    | '/_authenticated'
+    | '/signin'
+    | '/signup'
+    | '/_authenticated/protected'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  ProtectedRoute: typeof ProtectedRoute
+  AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   SigninRoute: typeof SigninRoute
   SignupRoute: typeof SignupRoute
 }
@@ -116,11 +128,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SigninRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/protected': {
-      id: '/protected'
-      path: '/protected'
-      fullPath: '/protected'
-      preLoaderRoute: typeof ProtectedRouteImport
+    '/_authenticated': {
+      id: '/_authenticated'
+      path: ''
+      fullPath: ''
+      preLoaderRoute: typeof AuthenticatedRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -129,6 +141,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated/protected': {
+      id: '/_authenticated/protected'
+      path: '/protected'
+      fullPath: '/protected'
+      preLoaderRoute: typeof AuthenticatedProtectedRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
     }
   }
 }
@@ -144,9 +163,20 @@ declare module '@tanstack/react-start/server' {
   }
 }
 
+interface AuthenticatedRouteRouteChildren {
+  AuthenticatedProtectedRoute: typeof AuthenticatedProtectedRoute
+}
+
+const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedProtectedRoute: AuthenticatedProtectedRoute,
+}
+
+const AuthenticatedRouteRouteWithChildren =
+  AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  ProtectedRoute: ProtectedRoute,
+  AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   SigninRoute: SigninRoute,
   SignupRoute: SignupRoute,
 }
