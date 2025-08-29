@@ -19,9 +19,6 @@ export const createPostServerFn = createServerFn({ method: "POST" })
     .handler(async ({ data, context }) => {
         const userId = context.user.id;
 
-        // mock error
-        // throw new Error('Mock error');
-
         const post = await createPost({ ...data, createdByUserId: userId });
         return post;
     });

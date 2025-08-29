@@ -1,6 +1,7 @@
 import { useQuery } from '@tanstack/react-query'
 import { createFileRoute } from '@tanstack/react-router'
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '~/components/ui/card'
+import { Skeleton } from '~/components/ui/skeleton'
 import { postsQueries, useCreatePost } from '~/features/posts/queries'
 import { createPostSchema, CreatePostSchema } from '~/features/posts/validation'
 import { authClient } from '~/lib/auth/auth-client'
@@ -99,7 +100,31 @@ function RouteComponent() {
       </Card>
 
 
-      {isLoading && <div>Loading...</div>}
+      {isLoading && (
+        <div>
+          <h2 className="text-2xl font-bold mb-4">Posts</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {Array.from({ length: 6 }).map((_, index) => (
+              <Card key={index}>
+                <CardHeader>
+                  <div className="flex justify-between">
+                    <Skeleton className="h-6 w-[200px]" />
+                    <Skeleton className="h-4 w-[80px]" />
+                  </div>
+                  <Skeleton className="h-4 w-[150px]" />
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-2">
+                    <Skeleton className="h-4 w-full" />
+                    <Skeleton className="h-4 w-[90%]" />
+                    <Skeleton className="h-4 w-[80%]" />
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+      )}
       {error && <div>Error: {error.message}</div>}
       {postsResponse && (
         <div>
