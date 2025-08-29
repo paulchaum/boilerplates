@@ -1,0 +1,80 @@
+---
+globs: src/db/*.ts,src/features/**/controller.ts
+---
+
+# Database & Drizzle ORM Patterns
+
+## Schema Definitions
+
+### Table Structure
+Follow this pattern for table definitions in [src/db/schema.ts](mdc:src/db/schema.ts):
+
+```typescript
+export const {tableName} = pgTable('{table_name}', {
+    id: uuid('uuid1').defaultRandom().primaryKey(),
+    createdAt: timestamp('created_at').defaultNow().notNull(),
+    updatedAt: timestamp('updated_at').defaultNow().$onUpdate(() => new Date()).notNull(),
+    
+    // Your columns here
+    name: varchar('name').notNull(),
+})
+```
+
+### Relations
+Always define relations after table definitions:
+```typescript
+export const {tableName}Relations = relations({tableName}, ({ one, many }) => ({
+    // Define relationships here
+    category: one(category, {
+        fields: [{tableName}.categoryId],
+        references: [category.id],
+    }),
+}))
+```
+
+## Controller Patterns
+
+### Database Operations
+Use consistent patterns for database operations:
+
+```typescript
+import { db } from "~/db/drizzle"
+import { eq } from "drizzle-orm"
+import { {tableName} } from "~/db/schema"
+
+export async function getAll{Entities}() {
+  return await db.select().from({tableName})
+}
+
+export async function get{Entity}ById(id: string) {
+  const [result] = await db.select().from({tableName}).where(eq({tableName}.id, id))
+  if (!result) {
+    throw new Error("{Entity} not found")
+  }
+  return result
+}
+
+export async function create{Entity}(data: {Entity}Insert) {
+  const [result] = await db.insert({tableName}).values(data).returning()
+  return result
+}
+```
+
+### Joins and Relations
+For complex queries with joins:
+```typescript
+export async function getAll{Entities}WithRelations() {
+  return await db.select().from({tableName}).leftJoin(
+    relatedTable,
+    eq({tableName}.relatedId, relatedTable.id)
+  )
+}
+```
+
+## Naming Conventions
+
+- Table names: snake_case in database, camelCase in TypeScript
+- Column names: snake_case in database schema
+- Always include `id`, `createdAt`, `updatedAt` fields
+- Use UUID for primary keys: `uuid('uuid1').defaultRandom().primaryKey()`
+- Foreign keys: `{entity}Id` pattern

@@ -1,0 +1,99 @@
+---
+globs: *.tsx,*.ts
+---
+
+# React & TypeScript Patterns
+
+## Component Patterns
+
+### Component Structure
+Always follow this structure for React components:
+1. Imports (external libs first, then internal with `~/`)
+2. Interface/type definitions
+3. Helper components (if any)
+4. Main component export
+
+### Import Organization
+```typescript
+// External libraries first
+import { useQuery } from "@tanstack/react-query"
+import { formatDistanceToNow } from "date-fns"
+
+// UI components
+import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card"
+import { Badge } from "~/components/ui/badge"
+
+// Feature-specific imports
+import { riskQueries } from "~/features/risks/queries"
+import type { RiskWithCategory } from "~/features/risks/types"
+```
+
+### Props Interfaces
+Define props interfaces above the component:
+```typescript
+interface RisksListProps {
+  className?: string
+}
+```
+
+### Loading States
+Always provide skeleton loading states using shadcn/ui Skeleton component:
+```typescript
+function RiskCardSkeleton() {
+  return (
+    <Card>
+      <CardHeader>
+        <Skeleton className="h-6 w-[200px]" />
+      </CardHeader>
+    </Card>
+  )
+}
+```
+
+### Error Handling
+Handle errors gracefully with user-friendly messages:
+```typescript
+if (error) {
+  return (
+    <div className="text-center">
+      <div className="text-lg font-medium text-red-600 dark:text-red-400">
+        Error loading data
+      </div>
+      <div className="text-sm text-gray-600 dark:text-gray-400 mt-2">
+        {error instanceof Error ? error.message : "An unknown error occurred"}
+      </div>
+    </div>
+  )
+}
+```
+
+## TypeScript Patterns
+
+### Type Definitions
+Use Drizzle's type inference for database types:
+```typescript
+export type RiskSelect = typeof risk.$inferSelect
+export type RiskInsert = typeof risk.$inferInsert
+```
+
+### Extended Types
+Create extended types by intersecting base types:
+```typescript
+export type RiskWithCategory = RiskSelect & {
+  riskCategory: RiskCategorySelect | null
+}
+```
+
+## Styling Guidelines
+
+- Use Tailwind CSS classes with dark mode support
+- Include hover states for interactive elements: `hover:shadow-md transition-shadow`
+- Use semantic color classes: `text-gray-900 dark:text-gray-100`
+- Implement responsive design: `sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3`
+- Always include dark mode variants: `text-gray-900 dark:text-gray-100`
+
+## File Naming
+
+- Export default for main component
+- Use kebab-case for file names with multiple words (`risk-creation-form.tsx`)
+- Index files to re-export components: [src/features/risks/components/index.ts](mdc:src/features/risks/components/index.ts)

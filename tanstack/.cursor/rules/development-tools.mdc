@@ -1,0 +1,43 @@
+---
+alwaysApply: true
+---
+
+# Development Tools & Package Management
+
+## Package Manager
+
+**Always use pnpm** as the package manager for this project.
+
+### Common Commands
+```bash
+# Install dependencies
+pnpm install
+
+# Add a new dependency
+pnpm add <package-name>
+
+# Add a dev dependency
+pnpm add -D <package-name>
+
+# Remove a dependency
+pnpm remove <package-name>
+```
+
+## UI Components (shadcn/ui)
+
+### Installing shadcn/ui Components
+
+**Always use this specific command** to install shadcn/ui components:
+
+```bash
+pnpm dlx shadcn@latest add <component-name>
+```
+
+### Examples
+```bash
+# Install a single component
+pnpm dlx shadcn@latest add button
+
+# Install multiple components
+pnpm dlx shadcn@latest add card badge input
+```

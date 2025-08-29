@@ -1,0 +1,78 @@
+---
+globs: src/lib/auth/*.ts,src/routes/api/auth/*.ts
+---
+
+# Authentication with Better Auth
+
+## Auth Configuration
+
+The project uses Better Auth with configuration split between:
+- **Client**: [src/lib/auth/auth-client.ts](mdc:src/lib/auth/auth-client.ts) - Client-side auth methods
+- **Server**: [src/lib/auth/auth-server.ts](mdc:src/lib/auth/auth-server.ts) - Server-side auth configuration
+- **Schema**: [src/db/auth-schema.ts](mdc:src/db/auth-schema.ts) - Database schema for auth tables
+
+## Component Auth Patterns
+
+### Protected Routes
+Wrap protected content in authentication checks:
+
+```typescript
+// In route component
+function ProtectedRouteComponent() {
+  const { data: session } = useQuery({
+    queryKey: ['auth-session'],
+    queryFn: () => authClient.getSession(),
+  })
+  
+  if (!session) {
+    redirect({ to: '/signin' })
+    return
+  }
+  
+  return <ProtectedContent />
+}
+```
+
+Or put the protected route in the [src/routes/_authenticated/](mdc:src/routes/_authenticated/) directory.
+
+### User Information Display
+Access user information consistently:
+
+```typescript
+import { useQuery } from '@tanstack/react-query'
+import { authClient } from '~/lib/auth/auth-client'
+
+function UserProfile() {
+  const { data: userSession } = authClient.useSession();
+  
+  return (
+    <div>
+      {userSession?.user.name && (
+        <span>Welcome, {userSession.user.name}</span>
+      )}
+    </div>
+  )
+}
+```
+
+## Auth Database Schema
+
+Follow Better Auth conventions for database tables:
+- `user` - User accounts
+- `session` - User sessions  
+- `account` - OAuth accounts
+- `verification` - Email verification tokens
+
+## Server-Side Auth
+
+For server functions requiring authentication, use the `authenticatedMiddleware` from [src/lib/auth/auth-server.ts](mdc:src/lib/auth/auth-server.ts) :
+
+```typescript
+export const myServerFn = createServerFn({ method: "POST" })
+  .middleware([authenticatedMiddleware]) // Middleware to check if the user is authenticated
+  .handler(async ({ data, context }) => {
+    const userId = context.user.id;
+    console.log(`User ID: ${userId}`);
+    return {success: true};
+  });
+```

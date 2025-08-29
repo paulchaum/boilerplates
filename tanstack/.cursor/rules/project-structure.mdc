@@ -1,0 +1,36 @@
+---
+alwaysApply: true
+---
+
+# Project Structure Guide
+
+This project follows a **feature-based architecture** with the main entry point at [src/server.ts](mdc:src/server.ts) and routing configuration in [src/router.tsx](mdc:src/router.tsx).
+
+## Core Structure
+
+- **Features**: Each feature lives in `src/features/{feature-name}/` with standardized files:
+  - `api.ts` - TanStack React Router server functions
+  - `controller.ts` - Business logic and database operations
+  - `queries.ts` - TanStack Query query factories and cache keys
+  - `types.ts` - TypeScript type definitions (using Drizzle inference)
+  - `validation.ts` - Zod validation schemas
+  - `components/` - Feature-specific React components
+
+- **Database**: Schema definitions in [src/db/schema.ts](mdc:src/db/schema.ts) using Drizzle ORM
+- **Routes**: File-based routing in `src/routes/` following TanStack Router conventions
+- **Shared Components**: Reusable UI components in `src/components/`
+- **Authentication**: Better Auth setup in `src/lib/auth/`
+
+## File Naming Conventions
+
+- Use kebab-case for file names: `risk-creation-form.tsx`
+- Use PascalCase for component exports: `RiskCreationForm`
+- Route files follow TanStack Router conventions: `_layout.tsx`, `index.tsx`
+
+## Import Path Strategy
+
+Always use the `~/` alias for absolute imports from the src directory:
+```typescript
+import { Card } from "~/components/ui/card"
+import { riskQueries } from "~/features/risks/queries"
+```

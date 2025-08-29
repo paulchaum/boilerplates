@@ -1,0 +1,46 @@
+---
+globs: src/features/**/api.ts
+---
+
+# API Server Functions Pattern
+
+## Server Function Structure
+
+All server functions should follow this pattern using TanStack React Router's `createServerFn`:
+
+```typescript
+/**
+ * Example of a server function to create a new Post
+ */
+export const createPostServerFn = createServerFn({ method: "POST" })
+    .validator((data: Omit<PostInsert, 'createdByUserId'>) => data) // Validate the input data
+    .middleware([authenticatedMiddleware]) // Middleware to check if the user is authenticated
+    .handler(async ({ data, context }) => {
+        const userId = context.user.id; // Get the user id from the context
+
+        const post = await createPost({ ...data, createdByUserId: userId }); // Create the post
+        return post;
+    });
+```
+
+## Key Requirements
+
+### HTTP Methods
+- Use appropriate HTTP methods in `createServerFn({ method: "GET|POST|PUT|DELETE" })`
+- GET operations don't need validators
+- POST/PUT operations should validate input data
+
+### Documentation
+Add JSDoc comments explaining what each server function does:
+```typescript
+/**
+ * Server function to get all {entities} with their relationships
+ */
+```
+
+## Import Organization
+Import controller functions at the top:
+```typescript
+// Example of importing a controller function
+import { createPost } from "./controller"
+```

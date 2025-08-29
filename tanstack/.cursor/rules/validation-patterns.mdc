@@ -1,0 +1,80 @@
+---
+globs: src/features/**/validation.ts
+---
+
+# Validation with Zod Patterns
+
+## Schema Structure
+
+Define validation schemas in `validation.ts` files following this pattern:
+
+```typescript
+import { z } from "zod"
+
+export const create{Entity}Schema = z.object({
+  name: z.string().min(1, "{Entity} name is required"),
+  // Add other fields with appropriate validation
+})
+
+export const update{Entity}Schema = create{Entity}Schema.partial()
+
+export type Create{Entity}Input = z.infer<typeof create{Entity}Schema>
+export type Update{Entity}Input = z.infer<typeof update{Entity}Schema>
+```
+
+## Common Validation Patterns
+
+### Required Fields
+```typescript
+name: z.string().min(1, "Name is required"),
+email: z.string().email("Invalid email address"),
+```
+
+### Optional Foreign Keys
+```typescript
+categoryId: z.string().uuid("Invalid category ID").optional(),
+```
+
+### Numbers and Ranges
+```typescript
+riskLevel: z.number().min(1).max(5, "Risk level must be between 1 and 5"),
+```
+
+### Arrays
+```typescript
+tags: z.array(z.string()).min(1, "At least one tag is required"),
+```
+
+## Error Messages
+
+- Provide clear, user-friendly error messages
+- Be specific about requirements: "Name is required" not "Field is required"
+- Include format hints: "Invalid email address" for email validation
+- Specify ranges: "Must be between 1 and 5" for numeric ranges
+
+## Type Inference
+
+Always export inferred types:
+```typescript
+export type Create{Entity}Input = z.infer<typeof create{Entity}Schema>
+```
+
+## Integration with Forms
+
+Use validation schemas with form libraries:
+```typescript
+const form = useForm<Create{Entity}Input>({
+  resolver: zodResolver(create{Entity}Schema),
+})
+```
+
+## Server-Side Validation
+
+Use schemas in server functions for input validation:
+```typescript
+export const create{Entity}ServerFn = createServerFn({ method: "POST" })
+  .validator((data: Create{Entity}Input) => create{Entity}Schema.parse(data))
+  .handler(async ({ data }) => {
+    // Handler logic
+  })
+```

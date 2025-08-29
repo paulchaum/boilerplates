@@ -1,0 +1,91 @@
+---
+globs: src/routes/**/*.tsx
+---
+
+# TanStack Router Patterns
+
+## Route File Structure
+
+Follow TanStack Router conventions for file-based routing:
+
+### Basic Route
+```typescript
+import { createFileRoute } from '@tanstack/react-router'
+import {Component} from '~/features/{feature}/components/{component}'
+
+export const Route = createFileRoute('/{path}')({
+  component: RouteComponent,
+})
+
+function RouteComponent() {
+  return <{Component} />
+}
+```
+
+### Layout Routes
+Use underscore prefix for layout routes: `_layout.tsx`
+```typescript
+import { createFileRoute, Outlet } from '@tanstack/react-router'
+
+export const Route = createFileRoute('/{feature}/_layout')({
+  component: LayoutComponent,
+})
+
+function LayoutComponent() {
+  return (
+    <div>
+      <h1>Feature Layout</h1>
+      <Outlet />
+    </div>
+  )
+}
+```
+
+## File Naming Conventions
+
+- Index routes: `index.tsx`
+- Dynamic routes: `$id.tsx`
+- Layout routes: `_layout.tsx`
+- Nested layouts: `_parent.child.tsx`
+- Route groups: `({group})/route.tsx`
+
+## Route Configuration
+
+### Simple Component Routes
+For routes that just render a component:
+```typescript
+export const Route = createFileRoute('/path')({
+  component: () => <FeatureComponent />,
+})
+```
+
+### Routes with Data Loading
+```typescript
+export const Route = createFileRoute('/path')({
+  component: RouteComponent,
+  loader: async () => {
+    // Load data here
+  },
+})
+```
+
+## Component Organization
+
+- Keep route components simple - delegate to feature components
+- Import feature components using `~/features/` path alias
+- Route components should primarily handle routing concerns, not business logic
+
+## Example Structure
+```
+src/routes/
+  ├── __root.tsx           # Root layout
+  ├── index.tsx            # Home page
+  ├── _authenticated/
+  │   └── posts/
+  │       ├── _posts.index.tsx # Posts list layout
+  │       ├── new.tsx          # Create post
+  │       └── $id.tsx          # Post details
+  └── _unauthenticated/
+      ├── _layout.tsx      # Unauthenticated layout
+      └── login.tsx        # Login page
+ ```

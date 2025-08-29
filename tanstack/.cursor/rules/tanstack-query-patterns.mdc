@@ -1,0 +1,82 @@
+---
+globs: src/features/**/queries.ts
+---
+
+# TanStack Query Patterns
+
+## Query Factory Structure
+
+Create query factories using this hierarchical pattern:
+
+```typescript
+export const {entity}Queries = {
+  all: ["{entities}"],
+  lists: () => [...{entity}Queries.all, "list"],
+  list: () =>
+    queryOptions({
+      queryKey: {entity}Queries.lists(),
+      queryFn: () => getAll{Entities}ServerFn(),
+      staleTime: 30000, // 30 seconds
+    }),
+  details: () => [...{entity}Queries.all, "detail"],
+  detail: (id: string) =>
+    queryOptions({
+      queryKey: [...{entity}Queries.details(), id],
+      queryFn: () => get{Entity}ByIdServerFn({ data: id }),
+      staleTime: 30000, // 30 seconds
+    }),
+}
+```
+
+## Key Patterns
+
+### Query Key Hierarchy
+Structure query keys hierarchically:
+- Base: `["{entities}"]`
+- Lists: `["{entities}", "list"]`  
+- Details: `["{entities}", "detail", id]`
+- Variants: `["{entities}", "list", "with-categories"]`
+
+### Stale Time
+Set appropriate stale times (typically 30 seconds for most data):
+```typescript
+staleTime: 30000, // 30 seconds
+```
+
+### Query Options
+Always use `queryOptions` for type safety and reusability:
+```typescript
+list: () =>
+  queryOptions({
+    queryKey: {entity}Queries.lists(),
+    queryFn: () => getAll{Entities}ServerFn(),
+    staleTime: 30000,
+  }),
+```
+
+### Server Function Integration
+Connect to server functions defined in [api.ts](mdc:api.ts):
+```typescript
+import { 
+  getAll{Entities}ServerFn,
+  get{Entity}ByIdServerFn 
+} from "./api";
+```
+
+## Usage in Components
+
+Use queries in components with proper error handling:
+```typescript
+const { data, isLoading, error } = useQuery({entity}Queries.list())
+
+if (isLoading) return <SkeletonComponent />
+if (error) return <ErrorComponent error={error} />
+```
+
+## Cache Invalidation
+
+For mutations, invalidate related queries:
+```typescript
+const queryClient = useQueryClient()
+queryClient.invalidateQueries({ queryKey: {entity}Queries.all })
+```
