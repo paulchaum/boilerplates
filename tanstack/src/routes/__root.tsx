@@ -99,7 +99,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
 	const LayoutComponent = Sidebar;
 
 	return (
-		<html className={theme} suppressHydrationWarning>
+		<html className={theme} lang="en" suppressHydrationWarning>
 			<head>
 				<HeadContent />
 			</head>

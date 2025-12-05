@@ -39,10 +39,13 @@ export function Sidebar({ children, links }: SidebarProps) {
 			{links.map((link) => {
 				// Clone the icon element and add/merge className if it's a valid React element
 				const styledIcon = React.isValidElement(link.icon)
-					? React.cloneElement(link.icon as React.ReactElement<any>, {
-							className:
-								`h-4 w-4 ${(link.icon as React.ReactElement<any>).props?.className || ""}`.trim(),
-						})
+					? React.cloneElement(
+							link.icon as React.ReactElement<{ className?: string }>,
+							{
+								className:
+									`h-4 w-4 ${(link.icon as React.ReactElement<{ className?: string }>).props?.className || ""}`.trim(),
+							},
+						)
 					: link.icon;
 
 				return (
@@ -135,6 +138,7 @@ export function Sidebar({ children, links }: SidebarProps) {
 								onClick={toggleSidebar}
 								className="p-1.5 rounded-md hover:bg-accent transition-colors"
 								title="Collapse sidebar"
+								type="button"
 							>
 								<ChevronLeft className="h-4 w-4" />
 							</button>
@@ -148,6 +152,7 @@ export function Sidebar({ children, links }: SidebarProps) {
 								onClick={toggleSidebar}
 								className="p-1.5 rounded-md hover:bg-accent transition-colors"
 								title="Expand sidebar"
+								type="button"
 							>
 								<ChevronRight className="h-4 w-4" />
 							</button>

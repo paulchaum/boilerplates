@@ -41,11 +41,12 @@ function RouteComponent() {
 		data: postsResponse,
 		isLoading,
 		error,
-	} = useQuery(
-		postsQueries.list({
-			userId: userSession?.user?.id!,
+	} = useQuery({
+		...postsQueries.list({
+			userId: userSession?.user?.id ?? "", // user if is ensured by the "enabled"
 		}),
-	);
+		enabled: !!userSession?.user?.id,
+	});
 
 	const form = useForm<CreatePostSchema>({
 		resolver: zodResolver(createPostSchema),
@@ -55,11 +56,7 @@ function RouteComponent() {
 		},
 	});
 
-	const {
-		mutate: createPost,
-		isPending,
-		error: createPostError,
-	} = useCreatePost();
+	const { mutate: createPost, isPending } = useCreatePost();
 
 	const onSubmit = (data: CreatePostSchema) => {
 		createPost(data, {
@@ -122,6 +119,7 @@ function RouteComponent() {
 					<h2 className="text-2xl font-bold mb-4">Posts</h2>
 					<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
 						{Array.from({ length: 6 }).map((_, index) => (
+							// biome-ignore lint/suspicious/noArrayIndexKey: Index is a valid key for skeletons
 							<Card key={index}>
 								<CardHeader>
 									<div className="flex justify-between">

@@ -31,10 +31,13 @@ export function Header({ children, links }: HeaderProps) {
 			{links.map((link) => {
 				// Clone the icon element and add/merge className if it's a valid React element
 				const styledIcon = React.isValidElement(link.icon)
-					? React.cloneElement(link.icon as React.ReactElement<any>, {
-							className:
-								`h-4 w-4 ${(link.icon as React.ReactElement<any>).props?.className || ""}`.trim(),
-						})
+					? React.cloneElement(
+							link.icon as React.ReactElement<{ className?: string }>,
+							{
+								className:
+									`h-4 w-4 ${(link.icon as React.ReactElement<{ className?: string }>).props?.className || ""}`.trim(),
+							},
+						)
 					: link.icon;
 
 				return (

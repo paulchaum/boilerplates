@@ -4,7 +4,7 @@ import { auth } from "../auth/auth-server";
 
 export const authenticatedMiddleware = createMiddleware({
 	type: "function",
-}).server(async ({ next, data }) => {
+}).server(async ({ next }) => {
 	const request = getWebRequest();
 	if (!request?.headers) {
 		throw new Error("Unauthorized: No request headers");

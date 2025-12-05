@@ -10,7 +10,7 @@ import type { PostInsert } from "./types";
 export const getUserPostsServerFn = createServerFn({ method: "GET" })
 	.validator((data: GetUserPostsParams) => data)
 	.middleware([authenticatedMiddleware])
-	.handler(async ({ data, context }) => {
+	.handler(async ({ context }) => {
 		const userId = context.user.id;
 
 		const posts = await getUserPosts({ userId });

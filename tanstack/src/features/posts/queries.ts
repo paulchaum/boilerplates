@@ -3,7 +3,6 @@ import {
 	useMutation,
 	useQueryClient,
 } from "@tanstack/react-query";
-import { toast } from "sonner";
 import { createPostServerFn, getUserPostsServerFn } from "./api";
 import type { GetUserPostsParams } from "./controller";
 import type { PostInsert } from "./types";

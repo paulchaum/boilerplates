@@ -25,6 +25,7 @@ export function DefaultCatchBoundary({ error }: ErrorComponentProps) {
 						router.invalidate();
 					}}
 					className={`px-2 py-1 bg-gray-600 dark:bg-gray-700 rounded text-white uppercase font-extrabold`}
+					type="button"
 				>
 					Try Again
 				</button>
