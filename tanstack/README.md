@@ -19,6 +19,10 @@
     ```bash
     pnpm install
     ```
+3. Set up git hooks with lefthook
+    ```bash
+    pnpm lefthook install
+    ```
 3. Copy `.env.example` to `.env` and fill in the values
 4. Start Postgres
     ```bash
