@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "vite dev",
     "build": "vite build && tsc --noEmit",
-    "start": "node .output/server/index.mjs"
+    "start": "node .output/server/index.mjs",
+		"check": "biome check --write --reporter summary"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.1",
