@@ -8,6 +8,8 @@
 - Lucide Icons
 - Better Auth
 - Tanstack Query
+- BiomeJS
+- Lefthook
 
 ## How to run
 
@@ -23,8 +25,8 @@
     ```bash
     pnpm lefthook install
     ```
-3. Copy `.env.example` to `.env` and fill in the values
-4. Start Postgres
+4. Copy `.env.example` to `.env` and fill in the values
+5. Start Postgres
     ```bash
     docker run \
         -it \
@@ -40,11 +42,11 @@
     ```
     `/path/to/db/data` is the path to the directory where the database data will be stored.
     It must be outside of the project directory.
-5. Apply migrations
+6. Apply migrations
     ```bash
     npx drizzle-kit migrate
     ```
-6. Start the server
+7. Start the server
     ```bash
     pnpm dev
     ```
