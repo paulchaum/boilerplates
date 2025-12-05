@@ -10,6 +10,7 @@
 - Tanstack Query
 - BiomeJS
 - Lefthook
+- React i18next
 
 ## How to run
 
