@@ -1,4 +1,7 @@
+import { useQueryClient } from "@tanstack/react-query";
+import { useRouter } from "@tanstack/react-router";
 import { LogOut } from "lucide-react";
+import { authQueries } from "~/features/auth/queries";
 import { authClient } from "~/lib/auth/auth-client";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { Button } from "./ui/button";
@@ -20,9 +23,13 @@ interface ProfileProps {
 }
 
 export function Profile({ user }: ProfileProps) {
+	const queryClient = useQueryClient();
+	const router = useRouter();
 	const handleSignOut = async () => {
 		try {
 			await authClient.signOut();
+			await queryClient.invalidateQueries({ queryKey: authQueries.all });
+			router.navigate({ to: "/" });
 		} catch (error) {
 			console.error("Failed to sign out:", error);
 		}
