@@ -17,6 +17,7 @@ import { Toaster } from "~/components/ui/sonner";
 import { authQueries } from "~/features/auth/queries";
 import { seo } from "~/lib/seo";
 import { getThemeServerFn } from "~/lib/theme";
+import "~/lib/i18n";
 import appCss from "~/styles/app.css?url";
 
 export const Route = createRootRouteWithContext<{

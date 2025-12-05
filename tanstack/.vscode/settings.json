@@ -8,6 +8,8 @@
 	"files.readonlyInclude": {
 		"**/routeTree.gen.ts": true
 	},
+	"i18n-ally.localesPaths": ["public/locales"],
+	"i18n-ally.keystyle": "nested",
 	"editor.formatOnSave": true,
 	"editor.codeActionsOnSave": {
 		"source.organizeImports.biome": "explicit"
