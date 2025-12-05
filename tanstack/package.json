@@ -7,7 +7,11 @@
 		"dev": "vite dev",
 		"build": "vite build && tsc --noEmit",
 		"start": "node .output/server/index.mjs",
-		"check": "biome check --write --reporter summary"
+		"check": "biome check --write --reporter summary",
+		"db:generate": "drizzle-kit generate",
+		"db:migrate": "drizzle-kit migrate",
+		"db:push": "drizzle-kit push",
+		"db:studio": "drizzle-kit studio"
 	},
 	"dependencies": {
 		"@hookform/resolvers": "^5.2.1",
