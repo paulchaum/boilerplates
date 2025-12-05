@@ -2,6 +2,7 @@ import { Link } from "@tanstack/react-router";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { authClient } from "~/lib/auth/auth-client";
+import { LanguageToggle } from "../LanguageToggle";
 import { Profile } from "../Profile";
 import { ThemeToggle } from "../theme-toggle";
 
@@ -78,6 +79,7 @@ export function Header({ children, links }: HeaderProps) {
 					{t("auth.signin.title")}
 				</Link>
 			)}
+			<LanguageToggle />
 			<ThemeToggle />
 		</div>
 	);

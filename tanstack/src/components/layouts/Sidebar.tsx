@@ -3,6 +3,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { authClient } from "~/lib/auth/auth-client";
+import { LanguageToggle } from "../LanguageToggle";
 import { Profile } from "../Profile";
 import { ThemeToggle } from "../theme-toggle";
 
@@ -100,11 +101,12 @@ export function Sidebar({ children, links }: SidebarProps) {
 						{isCollapsed ? "👤" : t('auth.signin.title')}
 					</Link>
 				)}
-				<div className={isCollapsed ? "flex justify-center" : ""}>
+				<div className={`flex justify-center gap-1 items-center ${isCollapsed ? "flex-col" : ""}`}>
+					< LanguageToggle />
 					<ThemeToggle />
 				</div>
 			</div>
-		</div>
+		</div >
 	);
 
 	return (

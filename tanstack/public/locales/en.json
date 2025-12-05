@@ -9,7 +9,12 @@
   },
   "navigation": {
     "home": "Home",
-    "protected": "Protected"
+    "protected": "Protected",
+    "language": "Language",
+    "languages": {
+      "english": "English",
+      "french": "Français"
+    }
   },
   "auth": {
     "signin": {
