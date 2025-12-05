@@ -5,6 +5,7 @@ import {
 	useRouter,
 } from "@tanstack/react-router";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Button } from "~/components/ui/button";
 import {
 	Card,
@@ -39,6 +40,8 @@ export const Route = createFileRoute("/signup")({
 });
 
 function SignUpPage() {
+	const { t } = useTranslation();
+
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 	const [confirmPassword, setConfirmPassword] = useState("");
@@ -58,7 +61,7 @@ function SignUpPage() {
 		try {
 			// Validate password confirmation
 			if (password !== confirmPassword) {
-				setError("Passwords do not match.");
+				setError(t("auth.signup.errors.passwordMismatch"));
 				return;
 			}
 
@@ -68,12 +71,11 @@ function SignUpPage() {
 				name,
 				callbackURL: redirectTo || "/", // redirect to origin page or home
 			});
-			console.log("response", response);
 
 			if (response.error) {
 				setError(
 					response.error.message ||
-						"Failed to create account. Please try again.",
+					t("auth.signup.errors.generic"),
 				);
 			} else {
 				// Manually redirect after successful signup
@@ -81,7 +83,7 @@ function SignUpPage() {
 			}
 		} catch (err) {
 			console.error("Sign up error:", err);
-			setError("Failed to create account. Please try again.");
+			setError(t("auth.signup.errors.generic"));
 		} finally {
 			setLoading(false);
 		}
@@ -92,58 +94,58 @@ function SignUpPage() {
 			<div className="w-full max-w-md">
 				<Card>
 					<CardHeader className="text-center">
-						<CardTitle className="text-3xl font-bold">Create Account</CardTitle>
-						<CardDescription>Join us today</CardDescription>
+						<CardTitle className="text-3xl font-bold">{t("auth.signup.title")}</CardTitle>
+						<CardDescription>{t("auth.signup.description")}</CardDescription>
 					</CardHeader>
 
 					<CardContent>
 						<form onSubmit={handleSubmit} className="space-y-6">
 							<div className="space-y-4">
 								<div className="space-y-2">
-									<Label htmlFor="name">Full Name</Label>
+									<Label htmlFor="name">{t("auth.signup.fullName")}</Label>
 									<Input
 										id="name"
 										type="text"
 										value={name}
 										onChange={(e) => setName(e.target.value)}
 										required
-										placeholder="Enter your full name"
+										placeholder={t("auth.signup.fullNamePlaceholder")}
 									/>
 								</div>
 
 								<div className="space-y-2">
-									<Label htmlFor="email">Email</Label>
+									<Label htmlFor="email">{t("auth.signup.email")}</Label>
 									<Input
 										id="email"
 										type="email"
 										value={email}
 										onChange={(e) => setEmail(e.target.value)}
 										required
-										placeholder="Enter your email"
+										placeholder={t("auth.signup.emailPlaceholder")}
 									/>
 								</div>
 
 								<div className="space-y-2">
-									<Label htmlFor="password">Password</Label>
+									<Label htmlFor="password">{t("auth.signup.password")}</Label>
 									<Input
 										id="password"
 										type="password"
 										value={password}
 										onChange={(e) => setPassword(e.target.value)}
 										required
-										placeholder="Enter your password"
+										placeholder={t("auth.signup.passwordPlaceholder")}
 									/>
 								</div>
 
 								<div className="space-y-2">
-									<Label htmlFor="confirmPassword">Confirm Password</Label>
+									<Label htmlFor="confirmPassword">{t("auth.signup.confirmPassword")}</Label>
 									<Input
 										id="confirmPassword"
 										type="password"
 										value={confirmPassword}
 										onChange={(e) => setConfirmPassword(e.target.value)}
 										required
-										placeholder="Confirm your password"
+										placeholder={t("auth.signup.confirmPasswordPlaceholder")}
 									/>
 								</div>
 							</div>
@@ -151,20 +153,22 @@ function SignUpPage() {
 							{error && <p className="text-sm text-destructive">{error}</p>}
 
 							<Button type="submit" disabled={loading} className="w-full">
-								{loading ? "Creating Account..." : "Create Account"}
+								{loading
+									? t("auth.signup.creatingAccount")
+									: t("auth.signup.createAccountButton")}
 							</Button>
 						</form>
 
 						{/* Link to sign in */}
 						<div className="text-center mt-6">
 							<p className="text-sm text-muted-foreground">
-								Already have an account?{" "}
+								{t("auth.signup.hasAccount")}{" "}
 								<Link
 									to="/signin"
 									search={{ redirectTo }}
 									className="font-medium text-primary hover:underline"
 								>
-									Sign in
+									{t("auth.signup.signIn")}
 								</Link>
 							</p>
 						</div>

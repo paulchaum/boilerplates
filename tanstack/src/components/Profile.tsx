@@ -1,6 +1,7 @@
 import { useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "@tanstack/react-router";
 import { LogOut } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import { authQueries } from "~/features/auth/queries";
 import { authClient } from "~/lib/auth/auth-client";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
@@ -23,6 +24,8 @@ interface ProfileProps {
 }
 
 export function Profile({ user }: ProfileProps) {
+	const { t } = useTranslation();
+
 	const queryClient = useQueryClient();
 	const router = useRouter();
 	const handleSignOut = async () => {
@@ -129,7 +132,7 @@ export function Profile({ user }: ProfileProps) {
 				>
 					<LogOut className="mr-2 h-4 w-4 group-hover:text-destructive transition-colors" />
 					<span className="group-hover:text-destructive transition-colors">
-						Sign out
+						{t("auth.signout.title")}
 					</span>
 				</DropdownMenuItem>
 			</DropdownMenuContent>

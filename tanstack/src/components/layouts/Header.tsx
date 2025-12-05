@@ -1,5 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import React from "react";
+import { useTranslation } from "react-i18next";
 import { authClient } from "~/lib/auth/auth-client";
 import { Profile } from "../Profile";
 import { ThemeToggle } from "../theme-toggle";
@@ -16,6 +17,8 @@ interface HeaderProps {
 }
 
 export function Header({ children, links }: HeaderProps) {
+	const { t } = useTranslation();
+
 	// Use Better Auth's useSession hook to get the current session
 	const { data: session, isPending, error } = authClient.useSession();
 
@@ -32,12 +35,12 @@ export function Header({ children, links }: HeaderProps) {
 				// Clone the icon element and add/merge className if it's a valid React element
 				const styledIcon = React.isValidElement(link.icon)
 					? React.cloneElement(
-							link.icon as React.ReactElement<{ className?: string }>,
-							{
-								className:
-									`h-4 w-4 ${(link.icon as React.ReactElement<{ className?: string }>).props?.className || ""}`.trim(),
-							},
-						)
+						link.icon as React.ReactElement<{ className?: string }>,
+						{
+							className:
+								`h-4 w-4 ${(link.icon as React.ReactElement<{ className?: string }>).props?.className || ""}`.trim(),
+						},
+					)
 					: link.icon;
 
 				return (
@@ -61,7 +64,7 @@ export function Header({ children, links }: HeaderProps) {
 	const UserSection = () => (
 		<div className="flex items-center space-x-4">
 			{isPending ? (
-				<span className="text-sm text-muted-foreground">Loading...</span>
+				<span className="text-sm text-muted-foreground">{t("loading")}</span>
 			) : isLoggedIn ? (
 				<Profile user={session.user} />
 			) : (
@@ -72,7 +75,7 @@ export function Header({ children, links }: HeaderProps) {
 					}}
 					className="text-sm font-medium hover:text-primary transition-colors px-4 py-2 rounded-md border border-border hover:bg-accent"
 				>
-					Sign In
+					{t("auth.signin.title")}
 				</Link>
 			)}
 			<ThemeToggle />

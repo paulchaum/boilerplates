@@ -2,6 +2,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import { useForm } from "react-hook-form";
+import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 import { Button } from "~/components/ui/button";
 import {
@@ -35,6 +36,8 @@ export const Route = createFileRoute("/_authenticated/posts/_posts/")({
 });
 
 function RouteComponent() {
+	const { t } = useTranslation();
+
 	const { data: userSession } = authClient.useSession();
 
 	const {
@@ -62,10 +65,10 @@ function RouteComponent() {
 		createPost(data, {
 			onSuccess: () => {
 				form.reset();
-				toast.success("Post created successfully!");
+				toast.success(t("posts.createdSuccess"));
 			},
 			onError: (error) => {
-				toast.error(`Failed to create post: ${error.message}`);
+				toast.error(t("posts.createdError", { error: error.message }));
 			},
 		});
 	};
@@ -74,7 +77,7 @@ function RouteComponent() {
 		<div className="space-y-8">
 			<Card>
 				<CardHeader>
-					<CardTitle>Create Post</CardTitle>
+					<CardTitle>{t("posts.createTitle")}</CardTitle>
 				</CardHeader>
 				<CardContent>
 					<Form {...form}>
@@ -84,7 +87,7 @@ function RouteComponent() {
 								name="title"
 								render={({ field }) => (
 									<FormItem className="max-w-sm">
-										<FormLabel>Title</FormLabel>
+										<FormLabel>{t("posts.title")}</FormLabel>
 										<FormControl>
 											<Input {...field} />
 										</FormControl>
@@ -97,7 +100,7 @@ function RouteComponent() {
 								name="content"
 								render={({ field }) => (
 									<FormItem>
-										<FormLabel>Content</FormLabel>
+										<FormLabel>{t("posts.content")}</FormLabel>
 										<FormControl>
 											<Textarea {...field} />
 										</FormControl>
@@ -106,7 +109,7 @@ function RouteComponent() {
 								)}
 							/>
 							<Button type="submit" disabled={isPending}>
-								{isPending ? "Creating..." : "Create Post"}
+								{isPending ? t("posts.creating") : t("posts.createButton")}
 							</Button>
 						</form>
 					</Form>
@@ -116,7 +119,7 @@ function RouteComponent() {
 
 			{isLoading && (
 				<div>
-					<h2 className="text-2xl font-bold mb-4">Posts</h2>
+					<h2 className="text-2xl font-bold mb-4">{t("posts.listTitle")}</h2>
 					<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
 						{Array.from({ length: 6 }).map((_, index) => (
 							// biome-ignore lint/suspicious/noArrayIndexKey: Index is a valid key for skeletons
@@ -140,10 +143,10 @@ function RouteComponent() {
 					</div>
 				</div>
 			)}
-			{error && <div>Error: {error.message}</div>}
+			{error && <div>{t("posts.listError", { error: error.message })}</div>}
 			{postsResponse && (
 				<div>
-					<h2 className="text-2xl font-bold mb-4">Posts</h2>
+					<h2 className="text-2xl font-bold mb-4">{t("posts.listTitle")}</h2>
 					<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
 						{postsResponse
 							.sort(

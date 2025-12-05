@@ -18,6 +18,7 @@ import { authQueries } from "~/features/auth/queries";
 import { seo } from "~/lib/seo";
 import { getThemeServerFn } from "~/lib/theme";
 import "~/lib/i18n";
+import { useTranslation } from "react-i18next";
 import appCss from "~/styles/app.css?url";
 
 export const Route = createRootRouteWithContext<{
@@ -91,10 +92,11 @@ function RootComponent() {
 
 function RootDocument({ children }: { children: React.ReactNode }) {
 	const { theme } = useTheme();
+	const { t } = useTranslation();
 
 	const links = [
-		{ to: "/", label: "Home", icon: <HomeIcon /> },
-		{ to: "/protected", label: "Protected", icon: <LockIcon /> },
+		{ to: "/", label: t("navigation.home"), icon: <HomeIcon /> },
+		{ to: "/protected", label: t("navigation.protected"), icon: <LockIcon /> },
 	];
 
 	const LayoutComponent = Sidebar;

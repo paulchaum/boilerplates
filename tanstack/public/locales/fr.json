@@ -1,5 +1,70 @@
 {
-    "home": {
-        "title": "Bienvenue à la maison"
+  "theme": {
+    "toggle": "Basculer le thème",
+    "light": "Clair",
+    "dark": "Sombre"
+  },
+  "home": {
+    "title": "Bienvenue à la maison"
+  },
+  "navigation": {
+    "home": "Maison",
+    "protected": "Protégé"
+  },
+  "auth": {
+    "signin": {
+      "errors": {
+        "credentials": "Échec de la connexion. Veuillez vérifier vos identifiants.",
+        "generic": "Échec de la connexion. Veuillez vérifier vos identifiants."
+      },
+      "title": "Se connecter",
+      "description": "Bon retour",
+      "email": "E-mail",
+      "emailPlaceholder": "Enter your email",
+      "password": "Mot de passe",
+      "passwordPlaceholder": "Entrez votre mot de passe",
+      "signingIn": "Connexion...",
+      "signInButton": "Se connecter",
+      "noAccount": "Vous n'avez pas de compte?",
+      "signUp": "S'inscrire"
+    },
+    "signup": {
+      "errors": {
+        "passwordMismatch": "Les mots de passe ne correspondent pas.",
+        "generic": "Échec de la création du compte. Veuillez réessayer."
+      },
+      "title": "Créer un compte",
+      "description": "Rejoignez-nous aujourd'hui",
+      "fullName": "Nom complet",
+      "fullNamePlaceholder": "Entrez votre nom complet",
+      "email": "E-mail",
+      "emailPlaceholder": "Entrez votre e-mail",
+      "password": "Mot de passe",
+      "passwordPlaceholder": "Entrez votre mot de passe",
+      "confirmPassword": "Confirmer le mot de passe",
+      "confirmPasswordPlaceholder": "Confirmez votre mot de passe",
+      "creatingAccount": "Création du compte...",
+      "createAccountButton": "Créer un compte",
+      "hasAccount": "Vous avez déjà un compte?",
+      "signIn": "Se connecter"
+    },
+    "signout": {
+      "title": "Se déconnecter"
     }
+  },
+  "protected": {
+    "title": "Bonjour \"/protected\""
+  },
+  "posts": {
+    "createTitle": "Créer un post",
+    "title": "Titre",
+    "content": "Contenu",
+    "creating": "Création...",
+    "createButton": "Créer",
+    "listTitle": "Posts",
+    "listError": "Erreur lors de la récupération des posts: {error}",
+    "createdSuccess": "Post créé avec succès!",
+    "createdError": "Erreur lors de la création du post: {error}"
+  },
+  "loading": "Chargement..."
 }

@@ -1,5 +1,6 @@
 import { createFileRoute, Link, redirect } from "@tanstack/react-router";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Button } from "~/components/ui/button";
 import {
 	Card,
@@ -34,6 +35,8 @@ export const Route = createFileRoute("/signin")({
 });
 
 function SignInPage() {
+	const { t } = useTranslation();
+
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 	const [loading, setLoading] = useState(false);
@@ -58,12 +61,12 @@ function SignInPage() {
 			if (response.error) {
 				setError(
 					response.error.message ||
-						"Failed to sign in. Please check your credentials.",
+					t("auth.signin.errors.credentials"),
 				);
 			}
 		} catch (err) {
 			console.error("Sign in error:", err);
-			setError("Failed to sign in. Please check your credentials.");
+			setError(t("auth.signin.errors.generic"));
 		} finally {
 			setLoading(false);
 		}
@@ -74,34 +77,34 @@ function SignInPage() {
 			<div className="w-full max-w-md">
 				<Card>
 					<CardHeader className="text-center">
-						<CardTitle className="text-3xl font-bold">Sign In</CardTitle>
-						<CardDescription>Welcome back</CardDescription>
+						<CardTitle className="text-3xl font-bold">{t("auth.signin.title")}</CardTitle>
+						<CardDescription>{t("auth.signin.description")}</CardDescription>
 					</CardHeader>
 
 					<CardContent>
 						<form onSubmit={handleSubmit} className="space-y-6">
 							<div className="space-y-4">
 								<div className="space-y-2">
-									<Label htmlFor="email">Email</Label>
+									<Label htmlFor="email">{t("auth.signin.email")}</Label>
 									<Input
 										id="email"
 										type="email"
 										value={email}
 										onChange={(e) => setEmail(e.target.value)}
 										required
-										placeholder="Enter your email"
+										placeholder={t("auth.signin.emailPlaceholder")}
 									/>
 								</div>
 
 								<div className="space-y-2">
-									<Label htmlFor="password">Password</Label>
+									<Label htmlFor="password">{t("auth.signin.password")}</Label>
 									<Input
 										id="password"
 										type="password"
 										value={password}
 										onChange={(e) => setPassword(e.target.value)}
 										required
-										placeholder="Enter your password"
+										placeholder={t("auth.signin.passwordPlaceholder")}
 									/>
 								</div>
 							</div>
@@ -109,20 +112,22 @@ function SignInPage() {
 							{error && <p className="text-sm text-destructive">{error}</p>}
 
 							<Button type="submit" disabled={loading} className="w-full">
-								{loading ? "Signing in..." : "Sign In"}
+								{loading
+									? t("auth.signin.signingIn")
+									: t("auth.signin.signInButton")}
 							</Button>
 						</form>
 
 						{/* Link to sign up */}
 						<div className="text-center mt-6">
 							<p className="text-sm text-muted-foreground">
-								Don't have an account?{" "}
+								{t("auth.signin.noAccount")}{" "}
 								<Link
 									to="/signup"
 									search={{ redirectTo }}
 									className="font-medium text-primary hover:underline"
 								>
-									Sign up
+									{t("auth.signin.signUp")}
 								</Link>
 							</p>
 						</div>

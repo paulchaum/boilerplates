@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import React, { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { authClient } from "~/lib/auth/auth-client";
 import { Profile } from "../Profile";
 import { ThemeToggle } from "../theme-toggle";
@@ -17,6 +18,8 @@ interface SidebarProps {
 }
 
 export function Sidebar({ children, links }: SidebarProps) {
+	const { t } = useTranslation();
+
 	// State for sidebar collapse/expand
 	const [isCollapsed, setIsCollapsed] = useState(false);
 
@@ -40,12 +43,12 @@ export function Sidebar({ children, links }: SidebarProps) {
 				// Clone the icon element and add/merge className if it's a valid React element
 				const styledIcon = React.isValidElement(link.icon)
 					? React.cloneElement(
-							link.icon as React.ReactElement<{ className?: string }>,
-							{
-								className:
-									`h-4 w-4 ${(link.icon as React.ReactElement<{ className?: string }>).props?.className || ""}`.trim(),
-							},
-						)
+						link.icon as React.ReactElement<{ className?: string }>,
+						{
+							className:
+								`h-4 w-4 ${(link.icon as React.ReactElement<{ className?: string }>).props?.className || ""}`.trim(),
+						},
+					)
 					: link.icon;
 
 				return (
@@ -56,9 +59,8 @@ export function Sidebar({ children, links }: SidebarProps) {
 							className: "font-bold text-primary bg-accent",
 						}}
 						activeOptions={{ exact: true }}
-						className={`flex items-center gap-3 text-lg font-medium hover:text-primary hover:bg-accent transition-colors rounded-md px-3 py-2 ${
-							isCollapsed ? "justify-center" : ""
-						}`}
+						className={`flex items-center gap-3 text-lg font-medium hover:text-primary hover:bg-accent transition-colors rounded-md px-3 py-2 ${isCollapsed ? "justify-center" : ""
+							}`}
 						title={isCollapsed ? link.label : undefined}
 					>
 						{styledIcon}
@@ -79,7 +81,7 @@ export function Sidebar({ children, links }: SidebarProps) {
 					<span
 						className={`text-sm text-muted-foreground ${isCollapsed ? "text-center" : ""}`}
 					>
-						{isCollapsed ? "..." : "Loading..."}
+						{isCollapsed ? "..." : t("loading")}
 					</span>
 				) : isLoggedIn ? (
 					<div className={isCollapsed ? "flex justify-center" : ""}>
@@ -91,12 +93,11 @@ export function Sidebar({ children, links }: SidebarProps) {
 						activeProps={{
 							className: "font-bold bg-accent",
 						}}
-						className={`text-sm font-medium hover:text-primary hover:bg-accent transition-colors px-4 py-2 rounded-md border border-border ${
-							isCollapsed ? "text-center" : ""
-						}`}
-						title={isCollapsed ? "Sign In" : undefined}
+						className={`text-sm font-medium hover:text-primary hover:bg-accent transition-colors px-4 py-2 rounded-md border border-border ${isCollapsed ? "text-center" : ""
+							}`}
+						title={isCollapsed ? t('auth.signin.title') : undefined}
 					>
-						{isCollapsed ? "👤" : "Sign In"}
+						{isCollapsed ? "👤" : t('auth.signin.title')}
 					</Link>
 				)}
 				<div className={isCollapsed ? "flex justify-center" : ""}>
@@ -109,9 +110,8 @@ export function Sidebar({ children, links }: SidebarProps) {
 	return (
 		<div className="min-h-screen bg-background">
 			<aside
-				className={`fixed left-0 top-0 z-40 h-screen border-r border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 transition-all duration-300 ${
-					isCollapsed ? "w-16" : "w-64"
-				}`}
+				className={`fixed left-0 top-0 z-40 h-screen border-r border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 transition-all duration-300 ${isCollapsed ? "w-16" : "w-64"
+					}`}
 			>
 				<div
 					className={`flex h-full flex-col py-8 ${isCollapsed ? "px-2" : "px-6"}`}
@@ -164,9 +164,8 @@ export function Sidebar({ children, links }: SidebarProps) {
 				</div>
 			</aside>
 			<main
-				className={`px-8 py-8 transition-all duration-300 ${
-					isCollapsed ? "ml-16" : "ml-64"
-				}`}
+				className={`px-8 py-8 transition-all duration-300 ${isCollapsed ? "ml-16" : "ml-64"
+					}`}
 			>
 				{children}
 			</main>
