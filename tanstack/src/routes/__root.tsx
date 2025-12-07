@@ -18,6 +18,7 @@ import { authQueries } from "~/features/auth/queries";
 import { seo } from "~/lib/seo";
 import { getThemeServerFn } from "~/lib/theme";
 import "~/lib/i18n";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import appCss from "~/styles/app.css?url";
 
@@ -92,7 +93,30 @@ function RootComponent() {
 
 function RootDocument({ children }: { children: React.ReactNode }) {
 	const { theme } = useTheme();
-	const { t } = useTranslation();
+	const { t, i18n, ready } = useTranslation();
+
+	// Wait for i18n to be ready to prevent hydration mismatches
+	const [isHydrated, setIsHydrated] = useState(false);
+
+	useEffect(() => {
+		setIsHydrated(true);
+	}, []);
+
+	// Show loading state until both i18n is ready and component is hydrated
+	if (!ready || !isHydrated) {
+		// return;
+		return (
+			<html className={theme} suppressHydrationWarning lang={i18n.language}>
+				<head>
+					<HeadContent />
+				</head>
+				<body>
+					<div />
+					<Scripts />
+				</body>
+			</html>
+		);
+	}
 
 	const links = [
 		{ to: "/", label: t("navigation.home"), icon: <HomeIcon /> },
@@ -102,7 +126,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
 	const LayoutComponent = Sidebar;
 
 	return (
-		<html className={theme} lang="en" suppressHydrationWarning>
+		<html className={theme} lang={i18n.language} suppressHydrationWarning>
 			<head>
 				<HeadContent />
 			</head>
