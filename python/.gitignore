@@ -46,3 +46,6 @@ Thumbs.db
 .env
 .env.*
 !.env.example
+
+# Database
+data.db
