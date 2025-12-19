@@ -1,8 +1,8 @@
 """posts
 
-Revision ID: fdcc5f098c9b
+Revision ID: 36f8632add27
 Revises:
-Create Date: 2025-12-19 18:43:10.293946
+Create Date: 2025-12-19 19:15:38.580367
 
 """
 
@@ -13,7 +13,7 @@ import sqlalchemy as sa
 from alembic import op
 
 # revision identifiers, used by Alembic.
-revision: str = "fdcc5f098c9b"
+revision: str = "36f8632add27"
 down_revision: Union[str, Sequence[str], None] = None
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
@@ -26,7 +26,7 @@ def upgrade() -> None:
         "post",
         sa.Column("title", sa.String(), nullable=False),
         sa.Column("content", sa.String(), nullable=False),
-        sa.Column("id", sa.UUID(), nullable=False),
+        sa.Column("id", sa.Uuid(), nullable=False),
         sa.Column(
             "created_at",
             sa.DateTime(),

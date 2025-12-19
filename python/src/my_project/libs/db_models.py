@@ -6,9 +6,9 @@ from sqlalchemy import (
     Column,
     DateTime,
     String,
+    Uuid,
     func,
 )
-from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import declarative_mixin, registry
 
 mapper_registry = registry()
@@ -23,7 +23,7 @@ class IdBaseMixin:
     id: int = field(
         init=False,
         metadata={
-            "sa": Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+            "sa": Column(Uuid(as_uuid=True), primary_key=True, default=uuid.uuid4)
         },
     )
 
