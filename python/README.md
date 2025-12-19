@@ -53,9 +53,9 @@
     ```
 10. Run the project:
     ```bash
-    uv run my-project
+    uv run my-awesome-project
     ```
     or
     ```bash
-    uv run python src/my_project/main.py
+    uv run python src/my_awesome_project/main.py
     ```
