@@ -23,6 +23,7 @@ packages = ["src/my_project"]
 dev = [
     "pre-commit>=4.5.1",
     "ruff>=0.14.9",
+    "ty>=0.0.4",
 ]
 
 [tool.inline-snapshot]
