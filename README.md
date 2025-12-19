@@ -17,6 +17,7 @@ Replace `<directory>` with the boilerplate name and `<output_dir>` with your des
 | Name | Description | Open |
 |------|-------------|--------|
 | **TanStack Full-Stack** | Modern React app with TanStack Start, authentication, PostgreSQL, and Shadcn/ui | [Open](./tanstack/) |
+| **Python** | Basic Python project with SQLAlchemy, Alembic, uv, pre-commit, ruff, ty | [Open](./python/) |
 
 
 ## 🤝 Contributing
