@@ -1,5 +1,6 @@
 from my_project.libs.db_helper import create_session
 from my_project.libs.db_models import Post
+from my_project.libs.logger import logger
 
 
 def main():
@@ -14,12 +15,12 @@ def main():
         session.add_all(posts)
         posts = session.query(Post).all()
         for post in posts:
-            print(f"- \033[1;4mID\033[0m: {post.id}")
-            print(f"  \033[1;4mTitle\033[0m: {post.title}")
-            print(f"  \033[1;4mContent\033[0m: {post.content}")
-            print(f"  \033[1;4mCreated At\033[0m: {post.created_at}")
-            print(f"  \033[1;4mLast Update\033[0m: {post.last_update}")
-            print()
+            logger.info(f"ID: {post.id}")
+            logger.info(f"Title: {post.title}")
+            logger.info(f"Content: {post.content}")
+            logger.info(f"Created At: {post.created_at}")
+            logger.info(f"Last Update: {post.last_update}")
+            logger.info("-" * 50)
         session.rollback()
 
 
