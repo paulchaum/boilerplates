@@ -8,7 +8,7 @@ import {
 import type { PostInsert } from "./types";
 
 export const getUserPostsServerFn = createServerFn({ method: "GET" })
-	.validator((data: GetUserPostsParams) => data)
+	.inputValidator((data: GetUserPostsParams) => data)
 	.middleware([authenticatedMiddleware])
 	.handler(async ({ context }) => {
 		const userId = context.user.id;
@@ -18,7 +18,7 @@ export const getUserPostsServerFn = createServerFn({ method: "GET" })
 	});
 
 export const createPostServerFn = createServerFn({ method: "POST" })
-	.validator((data: Omit<PostInsert, "createdByUserId">) => data)
+	.inputValidator((data: Omit<PostInsert, "createdByUserId">) => data)
 	.middleware([authenticatedMiddleware])
 	.handler(async ({ data, context }) => {
 		const userId = context.user.id;

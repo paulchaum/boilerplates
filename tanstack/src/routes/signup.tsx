@@ -17,6 +17,7 @@ import {
 import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
 import { authClient } from "~/lib/auth/auth-client";
+import logger from "~/lib/logger";
 
 type SearchParams = {
 	redirectTo?: string;
@@ -72,17 +73,16 @@ function SignUpPage() {
 				callbackURL: redirectTo || "/", // redirect to origin page or home
 			});
 
+			logger.info(response, "Sign up response");
+
 			if (response.error) {
-				setError(
-					response.error.message ||
-					t("auth.signup.errors.generic"),
-				);
+				setError(response.error.message || t("auth.signup.errors.generic"));
 			} else {
 				// Manually redirect after successful signup
 				router.navigate({ to: redirectTo || "/" });
 			}
 		} catch (err) {
-			console.error("Sign up error:", err);
+			logger.error(err, "Sign up error");
 			setError(t("auth.signup.errors.generic"));
 		} finally {
 			setLoading(false);
@@ -94,7 +94,9 @@ function SignUpPage() {
 			<div className="w-full max-w-md">
 				<Card>
 					<CardHeader className="text-center">
-						<CardTitle className="text-3xl font-bold">{t("auth.signup.title")}</CardTitle>
+						<CardTitle className="text-3xl font-bold">
+							{t("auth.signup.title")}
+						</CardTitle>
 						<CardDescription>{t("auth.signup.description")}</CardDescription>
 					</CardHeader>
 
@@ -138,7 +140,9 @@ function SignUpPage() {
 								</div>
 
 								<div className="space-y-2">
-									<Label htmlFor="confirmPassword">{t("auth.signup.confirmPassword")}</Label>
+									<Label htmlFor="confirmPassword">
+										{t("auth.signup.confirmPassword")}
+									</Label>
 									<Input
 										id="confirmPassword"
 										type="password"

@@ -1,5 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { authClient } from "~/lib/auth/auth-client";
+import logger from "~/lib/logger";
 import { Profile } from "./Profile";
 import { ThemeToggle } from "./theme-toggle";
 
@@ -35,7 +36,7 @@ export function Navigation() {
 	}
 
 	if (error) {
-		console.error("Session error:", error);
+		logger.error(error, "Session error");
 	}
 
 	return (

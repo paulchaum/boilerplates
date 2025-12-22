@@ -2,6 +2,7 @@ import { Link } from "@tanstack/react-router";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { authClient } from "~/lib/auth/auth-client";
+import logger from "~/lib/logger";
 import { LanguageToggle } from "../LanguageToggle";
 import { Profile } from "../Profile";
 import { ThemeToggle } from "../theme-toggle";
@@ -27,7 +28,7 @@ export function Header({ children, links }: HeaderProps) {
 	const isLoggedIn = !!session?.user;
 
 	if (error) {
-		console.error("Session error:", error);
+		logger.error(error, "Session error");
 	}
 
 	const NavigationLinks = () => (
@@ -36,12 +37,12 @@ export function Header({ children, links }: HeaderProps) {
 				// Clone the icon element and add/merge className if it's a valid React element
 				const styledIcon = React.isValidElement(link.icon)
 					? React.cloneElement(
-						link.icon as React.ReactElement<{ className?: string }>,
-						{
-							className:
-								`h-4 w-4 ${(link.icon as React.ReactElement<{ className?: string }>).props?.className || ""}`.trim(),
-						},
-					)
+							link.icon as React.ReactElement<{ className?: string }>,
+							{
+								className:
+									`h-4 w-4 ${(link.icon as React.ReactElement<{ className?: string }>).props?.className || ""}`.trim(),
+							},
+						)
 					: link.icon;
 
 				return (

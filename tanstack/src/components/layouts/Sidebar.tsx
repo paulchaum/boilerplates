@@ -3,6 +3,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { authClient } from "~/lib/auth/auth-client";
+import logger from "~/lib/logger";
 import { LanguageToggle } from "../LanguageToggle";
 import { Profile } from "../Profile";
 import { ThemeToggle } from "../theme-toggle";
@@ -31,7 +32,7 @@ export function Sidebar({ children, links }: SidebarProps) {
 	const isLoggedIn = !!session?.user;
 
 	if (error) {
-		console.error("Session error:", error);
+		logger.error(error, "Session error");
 	}
 
 	const toggleSidebar = () => {
@@ -44,12 +45,12 @@ export function Sidebar({ children, links }: SidebarProps) {
 				// Clone the icon element and add/merge className if it's a valid React element
 				const styledIcon = React.isValidElement(link.icon)
 					? React.cloneElement(
-						link.icon as React.ReactElement<{ className?: string }>,
-						{
-							className:
-								`h-4 w-4 ${(link.icon as React.ReactElement<{ className?: string }>).props?.className || ""}`.trim(),
-						},
-					)
+							link.icon as React.ReactElement<{ className?: string }>,
+							{
+								className:
+									`h-4 w-4 ${(link.icon as React.ReactElement<{ className?: string }>).props?.className || ""}`.trim(),
+							},
+						)
 					: link.icon;
 
 				return (
@@ -60,8 +61,9 @@ export function Sidebar({ children, links }: SidebarProps) {
 							className: "font-bold text-primary bg-accent",
 						}}
 						activeOptions={{ exact: true }}
-						className={`flex items-center gap-3 text-lg font-medium hover:text-primary hover:bg-accent transition-colors rounded-md px-3 py-2 ${isCollapsed ? "justify-center" : ""
-							}`}
+						className={`flex items-center gap-3 text-lg font-medium hover:text-primary hover:bg-accent transition-colors rounded-md px-3 py-2 ${
+							isCollapsed ? "justify-center" : ""
+						}`}
 						title={isCollapsed ? link.label : undefined}
 					>
 						{styledIcon}
@@ -94,26 +96,30 @@ export function Sidebar({ children, links }: SidebarProps) {
 						activeProps={{
 							className: "font-bold bg-accent",
 						}}
-						className={`text-sm font-medium hover:text-primary hover:bg-accent transition-colors px-4 py-2 rounded-md border border-border ${isCollapsed ? "text-center" : ""
-							}`}
-						title={isCollapsed ? t('auth.signin.title') : undefined}
+						className={`text-sm font-medium hover:text-primary hover:bg-accent transition-colors px-4 py-2 rounded-md border border-border ${
+							isCollapsed ? "text-center" : ""
+						}`}
+						title={isCollapsed ? t("auth.signin.title") : undefined}
 					>
-						{isCollapsed ? "👤" : t('auth.signin.title')}
+						{isCollapsed ? "👤" : t("auth.signin.title")}
 					</Link>
 				)}
-				<div className={`flex justify-center gap-1 items-center ${isCollapsed ? "flex-col" : ""}`}>
-					< LanguageToggle />
+				<div
+					className={`flex justify-center gap-1 items-center ${isCollapsed ? "flex-col" : ""}`}
+				>
+					<LanguageToggle />
 					<ThemeToggle />
 				</div>
 			</div>
-		</div >
+		</div>
 	);
 
 	return (
 		<div className="min-h-screen bg-background">
 			<aside
-				className={`fixed left-0 top-0 z-40 h-screen border-r border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 transition-all duration-300 ${isCollapsed ? "w-16" : "w-64"
-					}`}
+				className={`fixed left-0 top-0 z-40 h-screen border-r border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 transition-all duration-300 ${
+					isCollapsed ? "w-16" : "w-64"
+				}`}
 			>
 				<div
 					className={`flex h-full flex-col py-8 ${isCollapsed ? "px-2" : "px-6"}`}
@@ -166,8 +172,9 @@ export function Sidebar({ children, links }: SidebarProps) {
 				</div>
 			</aside>
 			<main
-				className={`px-8 py-8 transition-all duration-300 ${isCollapsed ? "ml-16" : "ml-64"
-					}`}
+				className={`px-8 py-8 transition-all duration-300 ${
+					isCollapsed ? "ml-16" : "ml-64"
+				}`}
 			>
 				{children}
 			</main>

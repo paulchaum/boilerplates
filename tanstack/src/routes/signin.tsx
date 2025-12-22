@@ -12,6 +12,7 @@ import {
 import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
 import { authClient } from "~/lib/auth/auth-client";
+import logger from "~/lib/logger";
 
 type SearchParams = {
 	redirectTo?: string;
@@ -56,16 +57,13 @@ function SignInPage() {
 				password,
 				callbackURL: redirectTo || "/", // redirect to origin page or home
 			});
-			console.log("response", response);
+			logger.info(response, "Sign in response");
 
 			if (response.error) {
-				setError(
-					response.error.message ||
-					t("auth.signin.errors.credentials"),
-				);
+				setError(response.error.message || t("auth.signin.errors.credentials"));
 			}
 		} catch (err) {
-			console.error("Sign in error:", err);
+			logger.error(err, "Sign in error");
 			setError(t("auth.signin.errors.generic"));
 		} finally {
 			setLoading(false);
@@ -77,7 +75,9 @@ function SignInPage() {
 			<div className="w-full max-w-md">
 				<Card>
 					<CardHeader className="text-center">
-						<CardTitle className="text-3xl font-bold">{t("auth.signin.title")}</CardTitle>
+						<CardTitle className="text-3xl font-bold">
+							{t("auth.signin.title")}
+						</CardTitle>
 						<CardDescription>{t("auth.signin.description")}</CardDescription>
 					</CardHeader>
 

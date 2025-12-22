@@ -51,6 +51,10 @@
     ```bash
     pnpm dev
     ```
+8. Lint the code
+    ```bash
+    pnpm check
+    ```
 
 ## How to run with Docker Compose
 

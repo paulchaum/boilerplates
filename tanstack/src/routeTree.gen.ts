@@ -8,18 +8,14 @@
 // You should NOT make any changes in this file as it will be overwritten.
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
-import { createServerRootRoute } from '@tanstack/react-start/server'
-
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as SignupRouteImport } from './routes/signup'
 import { Route as SigninRouteImport } from './routes/signin'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedProtectedRouteImport } from './routes/_authenticated/protected'
+import { Route as ApiAuthSplatRouteImport } from './routes/api/auth/$'
 import { Route as AuthenticatedPostsPostsIndexRouteImport } from './routes/_authenticated/posts/_posts.index'
-import { ServerRoute as ApiAuthSplatServerRouteImport } from './routes/api/auth/$'
-
-const rootServerRouteImport = createServerRootRoute()
 
 const SignupRoute = SignupRouteImport.update({
   id: '/signup',
@@ -45,23 +41,24 @@ const AuthenticatedProtectedRoute = AuthenticatedProtectedRouteImport.update({
   path: '/protected',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
+  id: '/api/auth/$',
+  path: '/api/auth/$',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AuthenticatedPostsPostsIndexRoute =
   AuthenticatedPostsPostsIndexRouteImport.update({
     id: '/posts/_posts/',
     path: '/posts/',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
-const ApiAuthSplatServerRoute = ApiAuthSplatServerRouteImport.update({
-  id: '/api/auth/$',
-  path: '/api/auth/$',
-  getParentRoute: () => rootServerRouteImport,
-} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/signin': typeof SigninRoute
   '/signup': typeof SignupRoute
   '/protected': typeof AuthenticatedProtectedRoute
+  '/api/auth/$': typeof ApiAuthSplatRoute
   '/posts': typeof AuthenticatedPostsPostsIndexRoute
 }
 export interface FileRoutesByTo {
@@ -69,6 +66,7 @@ export interface FileRoutesByTo {
   '/signin': typeof SigninRoute
   '/signup': typeof SignupRoute
   '/protected': typeof AuthenticatedProtectedRoute
+  '/api/auth/$': typeof ApiAuthSplatRoute
   '/posts': typeof AuthenticatedPostsPostsIndexRoute
 }
 export interface FileRoutesById {
@@ -78,13 +76,20 @@ export interface FileRoutesById {
   '/signin': typeof SigninRoute
   '/signup': typeof SignupRoute
   '/_authenticated/protected': typeof AuthenticatedProtectedRoute
+  '/api/auth/$': typeof ApiAuthSplatRoute
   '/_authenticated/posts/_posts/': typeof AuthenticatedPostsPostsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/signin' | '/signup' | '/protected' | '/posts'
+  fullPaths:
+    | '/'
+    | '/signin'
+    | '/signup'
+    | '/protected'
+    | '/api/auth/$'
+    | '/posts'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/signin' | '/signup' | '/protected' | '/posts'
+  to: '/' | '/signin' | '/signup' | '/protected' | '/api/auth/$' | '/posts'
   id:
     | '__root__'
     | '/'
@@ -92,6 +97,7 @@ export interface FileRouteTypes {
     | '/signin'
     | '/signup'
     | '/_authenticated/protected'
+    | '/api/auth/$'
     | '/_authenticated/posts/_posts/'
   fileRoutesById: FileRoutesById
 }
@@ -100,27 +106,7 @@ export interface RootRouteChildren {
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   SigninRoute: typeof SigninRoute
   SignupRoute: typeof SignupRoute
-}
-export interface FileServerRoutesByFullPath {
-  '/api/auth/$': typeof ApiAuthSplatServerRoute
-}
-export interface FileServerRoutesByTo {
-  '/api/auth/$': typeof ApiAuthSplatServerRoute
-}
-export interface FileServerRoutesById {
-  __root__: typeof rootServerRouteImport
-  '/api/auth/$': typeof ApiAuthSplatServerRoute
-}
-export interface FileServerRouteTypes {
-  fileServerRoutesByFullPath: FileServerRoutesByFullPath
-  fullPaths: '/api/auth/$'
-  fileServerRoutesByTo: FileServerRoutesByTo
-  to: '/api/auth/$'
-  id: '__root__' | '/api/auth/$'
-  fileServerRoutesById: FileServerRoutesById
-}
-export interface RootServerRouteChildren {
-  ApiAuthSplatServerRoute: typeof ApiAuthSplatServerRoute
+  ApiAuthSplatRoute: typeof ApiAuthSplatRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -160,23 +146,19 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedProtectedRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/api/auth/$': {
+      id: '/api/auth/$'
+      path: '/api/auth/$'
+      fullPath: '/api/auth/$'
+      preLoaderRoute: typeof ApiAuthSplatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/_authenticated/posts/_posts/': {
       id: '/_authenticated/posts/_posts/'
       path: '/posts'
       fullPath: '/posts'
       preLoaderRoute: typeof AuthenticatedPostsPostsIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
-    }
-  }
-}
-declare module '@tanstack/react-start/server' {
-  interface ServerFileRoutesByPath {
-    '/api/auth/$': {
-      id: '/api/auth/$'
-      path: '/api/auth/$'
-      fullPath: '/api/auth/$'
-      preLoaderRoute: typeof ApiAuthSplatServerRouteImport
-      parentRoute: typeof rootServerRouteImport
     }
   }
 }
@@ -199,13 +181,17 @@ const rootRouteChildren: RootRouteChildren = {
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   SigninRoute: SigninRoute,
   SignupRoute: SignupRoute,
+  ApiAuthSplatRoute: ApiAuthSplatRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-const rootServerRouteChildren: RootServerRouteChildren = {
-  ApiAuthSplatServerRoute: ApiAuthSplatServerRoute,
+
+import type { getRouter } from './router.tsx'
+import type { createStart } from '@tanstack/react-start'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+  }
 }
-export const serverRouteTree = rootServerRouteImport
-  ._addFileChildren(rootServerRouteChildren)
-  ._addFileTypes<FileServerRouteTypes>()

@@ -4,6 +4,7 @@ import { LogOut } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { authQueries } from "~/features/auth/queries";
 import { authClient } from "~/lib/auth/auth-client";
+import logger from "~/lib/logger";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { Button } from "./ui/button";
 import {
@@ -34,7 +35,7 @@ export function Profile({ user }: ProfileProps) {
 			await queryClient.invalidateQueries({ queryKey: authQueries.all });
 			router.navigate({ to: "/" });
 		} catch (error) {
-			console.error("Failed to sign out:", error);
+			logger.error(error, "Failed to sign out");
 		}
 	};
 
