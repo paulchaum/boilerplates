@@ -1,4 +1,5 @@
 import { createMiddleware } from "@tanstack/react-start";
+import logger from "../logger";
 
 const preLogMiddleware = createMiddleware({ type: "function" })
 	.client(async (ctx) => {
@@ -31,11 +32,11 @@ export const logMiddleware = createMiddleware({ type: "function" })
 		const res = await ctx.next();
 
 		const now = new Date();
-		console.log("Client Req/Res:", {
+		logger.info({
 			duration: now.getTime() - res.context.clientTime.getTime(),
 			durationToServer: res.context.durationToServer,
 			durationFromServer: now.getTime() - res.context.serverTime.getTime(),
-		});
+		}, "Client Req/Res");
 
 		return res;
 	});

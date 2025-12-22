@@ -17,6 +17,7 @@ import {
 import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
 import { authClient } from "~/lib/auth/auth-client";
+import logger from "~/lib/logger";
 
 type SearchParams = {
 	redirectTo?: string;
@@ -72,6 +73,8 @@ function SignUpPage() {
 				callbackURL: redirectTo || "/", // redirect to origin page or home
 			});
 
+			logger.info(response, "Sign up response");
+
 			if (response.error) {
 				setError(
 					response.error.message ||
@@ -82,7 +85,7 @@ function SignUpPage() {
 				router.navigate({ to: redirectTo || "/" });
 			}
 		} catch (err) {
-			console.error("Sign up error:", err);
+			logger.error(err, "Sign up error");
 			setError(t("auth.signup.errors.generic"));
 		} finally {
 			setLoading(false);

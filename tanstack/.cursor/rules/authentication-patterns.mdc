@@ -68,11 +68,13 @@ Follow Better Auth conventions for database tables:
 For server functions requiring authentication, use the `authenticatedMiddleware` from [src/lib/auth/auth-server.ts](mdc:src/lib/auth/auth-server.ts) :
 
 ```typescript
+import logger from '~/lib/logger'
+
 export const myServerFn = createServerFn({ method: "POST" })
   .middleware([authenticatedMiddleware]) // Middleware to check if the user is authenticated
   .handler(async ({ data, context }) => {
     const userId = context.user.id;
-    console.log(`User ID: ${userId}`);
+    logger.info(`User ID: ${userId}`);
     return {success: true};
   });
 ```

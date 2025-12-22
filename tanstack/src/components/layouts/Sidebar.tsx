@@ -3,6 +3,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { authClient } from "~/lib/auth/auth-client";
+import logger from "~/lib/logger";
 import { LanguageToggle } from "../LanguageToggle";
 import { Profile } from "../Profile";
 import { ThemeToggle } from "../theme-toggle";
@@ -31,7 +32,7 @@ export function Sidebar({ children, links }: SidebarProps) {
 	const isLoggedIn = !!session?.user;
 
 	if (error) {
-		console.error("Session error:", error);
+		logger.error(error, "Session error");
 	}
 
 	const toggleSidebar = () => {

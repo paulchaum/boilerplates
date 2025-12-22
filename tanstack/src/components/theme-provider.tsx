@@ -11,7 +11,6 @@ export function ThemeProvider({ children, theme }: Props) {
 	const router = useRouter();
 
 	async function setTheme(val: Theme) {
-		console.log('setTheme 2', val);
 		await setThemeServerFn({ data: val });
 		router.invalidate();
 	}

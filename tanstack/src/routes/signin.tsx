@@ -12,6 +12,7 @@ import {
 import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
 import { authClient } from "~/lib/auth/auth-client";
+import logger from "~/lib/logger";
 
 type SearchParams = {
 	redirectTo?: string;
@@ -56,7 +57,7 @@ function SignInPage() {
 				password,
 				callbackURL: redirectTo || "/", // redirect to origin page or home
 			});
-			console.log("response", response);
+			logger.info(response, "Sign in response");
 
 			if (response.error) {
 				setError(
@@ -65,7 +66,7 @@ function SignInPage() {
 				);
 			}
 		} catch (err) {
-			console.error("Sign in error:", err);
+			logger.error(err, "Sign in error");
 			setError(t("auth.signin.errors.generic"));
 		} finally {
 			setLoading(false);
