@@ -1,6 +1,8 @@
-import { registerGlobalMiddleware } from "@tanstack/react-start";
-import { logMiddleware } from "./logging";
+import { createStart } from '@tanstack/react-start'
+import { logMiddleware } from './logging'
 
-registerGlobalMiddleware({
-	middleware: [logMiddleware],
-});
+export const startInstance = createStart(() => {
+	return {
+		functionMiddleware: [logMiddleware],
+	}
+})
