@@ -76,10 +76,7 @@ function SignUpPage() {
 			logger.info(response, "Sign up response");
 
 			if (response.error) {
-				setError(
-					response.error.message ||
-					t("auth.signup.errors.generic"),
-				);
+				setError(response.error.message || t("auth.signup.errors.generic"));
 			} else {
 				// Manually redirect after successful signup
 				router.navigate({ to: redirectTo || "/" });
@@ -97,7 +94,9 @@ function SignUpPage() {
 			<div className="w-full max-w-md">
 				<Card>
 					<CardHeader className="text-center">
-						<CardTitle className="text-3xl font-bold">{t("auth.signup.title")}</CardTitle>
+						<CardTitle className="text-3xl font-bold">
+							{t("auth.signup.title")}
+						</CardTitle>
 						<CardDescription>{t("auth.signup.description")}</CardDescription>
 					</CardHeader>
 
@@ -141,7 +140,9 @@ function SignUpPage() {
 								</div>
 
 								<div className="space-y-2">
-									<Label htmlFor="confirmPassword">{t("auth.signup.confirmPassword")}</Label>
+									<Label htmlFor="confirmPassword">
+										{t("auth.signup.confirmPassword")}
+									</Label>
 									<Input
 										id="confirmPassword"
 										type="password"

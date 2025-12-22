@@ -32,11 +32,14 @@ export const logMiddleware = createMiddleware({ type: "function" })
 		const res = await ctx.next();
 
 		const now = new Date();
-		logger.info({
-			duration: now.getTime() - res.context.clientTime.getTime(),
-			durationToServer: res.context.durationToServer,
-			durationFromServer: now.getTime() - res.context.serverTime.getTime(),
-		}, "Client Req/Res");
+		logger.info(
+			{
+				duration: now.getTime() - res.context.clientTime.getTime(),
+				durationToServer: res.context.durationToServer,
+				durationFromServer: now.getTime() - res.context.serverTime.getTime(),
+			},
+			"Client Req/Res",
+		);
 
 		return res;
 	});

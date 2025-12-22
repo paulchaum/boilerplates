@@ -1,4 +1,4 @@
-import { createStart } from '@tanstack/react-start'
+import { createStart } from "@tanstack/react-start";
 
 export const startInstance = createStart(() => {
 	return {
@@ -6,5 +6,5 @@ export const startInstance = createStart(() => {
 			// Uncomment this to enable logging middleware
 			// logMiddleware,
 		],
-	}
-})
+	};
+});

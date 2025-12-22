@@ -1,75 +1,75 @@
 {
-  "theme": {
-    "toggle": "Toggle theme",
-    "light": "Light",
-    "dark": "Dark"
-  },
-  "home": {
-    "title": "Welcome Home"
-  },
-  "navigation": {
-    "home": "Home",
-    "protected": "Protected",
-    "language": "Language",
-    "languages": {
-      "english": "English",
-      "french": "Français"
-    }
-  },
-  "auth": {
-    "signin": {
-      "errors": {
-        "credentials": "Failed to sign in. Please check your credentials.",
-        "generic": "Failed to sign in. Please check your credentials."
-      },
-      "title": "Sign In",
-      "description": "Welcome back",
-      "email": "Email",
-      "emailPlaceholder": "Enter your email",
-      "password": "Password",
-      "passwordPlaceholder": "Enter your password",
-      "signingIn": "Signing in...",
-      "signInButton": "Sign In",
-      "noAccount": "Don't have an account?",
-      "signUp": "Sign up"
-    },
-    "signup": {
-      "errors": {
-        "passwordMismatch": "Passwords do not match.",
-        "generic": "Failed to create account. Please try again."
-      },
-      "title": "Create Account",
-      "description": "Join us today",
-      "fullName": "Full Name",
-      "fullNamePlaceholder": "Enter your full name",
-      "email": "Email",
-      "emailPlaceholder": "Enter your email",
-      "password": "Password",
-      "passwordPlaceholder": "Enter your password",
-      "confirmPassword": "Confirm Password",
-      "confirmPasswordPlaceholder": "Confirm your password",
-      "creatingAccount": "Creating Account...",
-      "createAccountButton": "Create Account",
-      "hasAccount": "Already have an account?",
-      "signIn": "Sign in"
-    },
-    "signout": {
-      "title": "Sign out"
-    }
-  },
-  "protected": {
-    "title": "Hello \"/protected\""
-  },
-  "posts": {
-    "createTitle": "Create Post",
-    "title": "Title",
-    "content": "Content",
-    "creating": "Creating...",
-    "createButton": "Create",
-    "listTitle": "Posts",
-    "listError": "Error fetching posts: {error}",
-    "createdSuccess": "Post created successfully!",
-    "createdError": "Error creating post: {error}"
-  },
-  "loading": "Loading..."
+	"theme": {
+		"toggle": "Toggle theme",
+		"light": "Light",
+		"dark": "Dark"
+	},
+	"home": {
+		"title": "Welcome Home"
+	},
+	"navigation": {
+		"home": "Home",
+		"protected": "Protected",
+		"language": "Language",
+		"languages": {
+			"english": "English",
+			"french": "Français"
+		}
+	},
+	"auth": {
+		"signin": {
+			"errors": {
+				"credentials": "Failed to sign in. Please check your credentials.",
+				"generic": "Failed to sign in. Please check your credentials."
+			},
+			"title": "Sign In",
+			"description": "Welcome back",
+			"email": "Email",
+			"emailPlaceholder": "Enter your email",
+			"password": "Password",
+			"passwordPlaceholder": "Enter your password",
+			"signingIn": "Signing in...",
+			"signInButton": "Sign In",
+			"noAccount": "Don't have an account?",
+			"signUp": "Sign up"
+		},
+		"signup": {
+			"errors": {
+				"passwordMismatch": "Passwords do not match.",
+				"generic": "Failed to create account. Please try again."
+			},
+			"title": "Create Account",
+			"description": "Join us today",
+			"fullName": "Full Name",
+			"fullNamePlaceholder": "Enter your full name",
+			"email": "Email",
+			"emailPlaceholder": "Enter your email",
+			"password": "Password",
+			"passwordPlaceholder": "Enter your password",
+			"confirmPassword": "Confirm Password",
+			"confirmPasswordPlaceholder": "Confirm your password",
+			"creatingAccount": "Creating Account...",
+			"createAccountButton": "Create Account",
+			"hasAccount": "Already have an account?",
+			"signIn": "Sign in"
+		},
+		"signout": {
+			"title": "Sign out"
+		}
+	},
+	"protected": {
+		"title": "Hello \"/protected\""
+	},
+	"posts": {
+		"createTitle": "Create Post",
+		"title": "Title",
+		"content": "Content",
+		"creating": "Creating...",
+		"createButton": "Create",
+		"listTitle": "Posts",
+		"listError": "Error fetching posts: {error}",
+		"createdSuccess": "Post created successfully!",
+		"createdError": "Error creating post: {error}"
+	},
+	"loading": "Loading..."
 }
