@@ -9,12 +9,12 @@
 	},
 	"navigation": {
 		"home": "Maison",
-		"protected": "Protégé",
 		"language": "Langue",
 		"languages": {
 			"english": "English",
 			"french": "Français"
-		}
+		},
+		"posts": "Posts"
 	},
 	"auth": {
 		"signin": {
@@ -69,7 +69,8 @@
 		"listTitle": "Posts",
 		"listError": "Erreur lors de la récupération des posts: {error}",
 		"createdSuccess": "Post créé avec succès!",
-		"createdError": "Erreur lors de la création du post: {error}"
+		"createdError": "Erreur lors de la création du post: {error}",
+		"listEmpty": "Pas de post"
 	},
 	"loading": "Chargement..."
 }

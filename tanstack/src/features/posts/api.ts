@@ -2,6 +2,8 @@ import { createServerFn } from "@tanstack/react-start";
 import { authenticatedMiddleware } from "~/lib/middleware/auth";
 import {
 	createPost,
+	type DeleteUserPostParams,
+	deleteUserPost,
 	type GetUserPostsParams,
 	getUserPosts,
 } from "./controller";
@@ -25,4 +27,13 @@ export const createPostServerFn = createServerFn({ method: "POST" })
 
 		const post = await createPost({ ...data, createdByUserId: userId });
 		return post;
+	});
+
+export const deleteUserPostServerFn = createServerFn({ method: "POST" })
+	.inputValidator((data: Omit<DeleteUserPostParams, "userId">) => data)
+	.middleware([authenticatedMiddleware])
+	.handler(async ({ data, context }) => {
+		const userId = context.user.id;
+		await deleteUserPost({ ...data, userId });
+		return { success: true };
 	});

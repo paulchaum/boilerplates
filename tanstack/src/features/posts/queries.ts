@@ -3,8 +3,12 @@ import {
 	useMutation,
 	useQueryClient,
 } from "@tanstack/react-query";
-import { createPostServerFn, getUserPostsServerFn } from "./api";
-import type { GetUserPostsParams } from "./controller";
+import {
+	createPostServerFn,
+	deleteUserPostServerFn,
+	getUserPostsServerFn,
+} from "./api";
+import type { DeleteUserPostParams, GetUserPostsParams } from "./controller";
 import type { PostInsert } from "./types";
 
 /**
@@ -28,6 +32,20 @@ export const useCreatePost = () => {
 	return useMutation({
 		mutationFn: (params: Omit<PostInsert, "createdByUserId">) =>
 			createPostServerFn({ data: params }),
+		onSuccess: () => {
+			queryClient.invalidateQueries({ queryKey: postsQueries.lists() });
+		},
+	});
+};
+
+/**
+ * Mutation to delete a post and invalidate the posts list query
+ */
+export const useDeletePost = () => {
+	const queryClient = useQueryClient();
+	return useMutation({
+		mutationFn: (params: Omit<DeleteUserPostParams, "userId">) =>
+			deleteUserPostServerFn({ data: params }),
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: postsQueries.lists() });
 		},

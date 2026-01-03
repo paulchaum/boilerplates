@@ -9,12 +9,12 @@
 	},
 	"navigation": {
 		"home": "Home",
-		"protected": "Protected",
 		"language": "Language",
 		"languages": {
 			"english": "English",
 			"french": "Français"
-		}
+		},
+		"posts": "Posts"
 	},
 	"auth": {
 		"signin": {
@@ -69,7 +69,8 @@
 		"listTitle": "Posts",
 		"listError": "Error fetching posts: {error}",
 		"createdSuccess": "Post created successfully!",
-		"createdError": "Error creating post: {error}"
+		"createdError": "Error creating post: {error}",
+		"listEmpty": "No post"
 	},
 	"loading": "Loading..."
 }

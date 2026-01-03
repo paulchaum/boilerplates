@@ -1,4 +1,4 @@
-import { eq } from "drizzle-orm";
+import { and, eq } from "drizzle-orm";
 import { db } from "~/db/drizzle";
 import { post, user } from "~/db/schema";
 import type { Post, PostInsert, PostSelect } from "./types";
@@ -27,4 +27,19 @@ export const getUserPosts = async (
 		...post.post,
 		createdByUser: post.user,
 	}));
+};
+
+export interface DeleteUserPostParams {
+	userId: string;
+	id: string;
+}
+
+export const deleteUserPost = async (
+	params: DeleteUserPostParams,
+): Promise<void> => {
+	await db
+		.delete(post)
+		.where(
+			and(eq(post.id, params.id), eq(post.createdByUserId, params.userId)),
+		);
 };
