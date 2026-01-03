@@ -60,7 +60,7 @@
 
 1. `pnpm install`
 1. `cp .env.example .env`
-2. `docker compose -f compose.dev.yaml up --watch`
+2. `docker compose -f compose.dev.yaml up --build --watch`
 3. Open the app at `http://localhost:3000`
 
 To stop the stack:
