@@ -5,6 +5,7 @@ const options: pino.LoggerOptions = {
 		? (process.env.LOG_LEVEL.toLowerCase() as pino.LevelWithSilentOrString)
 		: "info",
 	timestamp: pino.stdTimeFunctions.isoTime,
+	base: undefined, // remove pid and hostname in the logs
 };
 
 if (process.env.NODE_ENV === "development") {
@@ -12,6 +13,7 @@ if (process.env.NODE_ENV === "development") {
 		target: "pino-pretty",
 		options: {
 			colorize: true,
+			singleLine: true,
 		},
 	};
 }

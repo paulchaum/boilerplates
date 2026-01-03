@@ -3,7 +3,6 @@ import { createRouter } from "@tanstack/react-router";
 import { DefaultCatchBoundary } from "./components/DefaultCatchBoundary";
 import { NotFound } from "./components/NotFound";
 import { routeTree } from "./routeTree.gen";
-import "~/lib/middleware/global";
 
 export function getRouter() {
 	const queryClient = new QueryClient({

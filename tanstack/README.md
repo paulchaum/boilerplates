@@ -58,12 +58,10 @@
 
 ## How to run with Docker Compose
 
-1. Make sure you have a `.env` file at the project root (you can start from `.env.example`).
-2. Build and start the app and database:
-    ```bash
-    docker compose -f compose.dev.yaml up --build
-    ```
-3. Open the app at `http://localhost:3000`.
+1. `pnpm install`
+1. `cp .env.example .env`
+2. `docker compose -f compose.dev.yaml up --watch`
+3. Open the app at `http://localhost:3000`
 
 To stop the stack:
 ```bash
