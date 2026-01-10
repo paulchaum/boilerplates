@@ -116,3 +116,15 @@ docker compose -f compose.dev.yaml down
     ```bash
     npx drizzle-kit migrate
     ```
+
+## Install a new dependency
+
+Use `pnpm` to install a new dependency. Example:
+```bash
+pnpm add <package-name>
+```
+
+If you are running the development server with Docker Compose, you need to restart the server to see the changes:
+```bash
+docker compose -f compose.dev.yaml restart app
+```

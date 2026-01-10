@@ -15,8 +15,7 @@ services:
     tty: true
     volumes:
       - .:/app
-      - /app/node_modules
-      - /app/.pnpm-store
+      - pnpm-store:/app/.pnpm-store
 
   db:
     image: postgres:17-alpine
@@ -38,3 +37,4 @@ services:
 
 volumes:
   db-data:
+  pnpm-store:
