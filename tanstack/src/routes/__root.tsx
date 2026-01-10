@@ -7,7 +7,7 @@ import {
 	Scripts,
 } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
-import { HomeIcon, LockIcon } from "lucide-react";
+import { FileText, HomeIcon, LockIcon } from "lucide-react";
 import type * as React from "react";
 import { DefaultCatchBoundary } from "~/components/DefaultCatchBoundary";
 import { Sidebar } from "~/components/layouts/Sidebar";
@@ -121,7 +121,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
 
 	const links = [
 		{ to: "/", label: t("navigation.home"), icon: <HomeIcon /> },
-		{ to: "/protected", label: t("navigation.protected"), icon: <LockIcon /> },
+		{ to: "/posts", label: t("navigation.posts"), icon: <FileText /> },
 	];
 
 	const LayoutComponent = Sidebar;

@@ -1,11 +1,13 @@
 import { createMiddleware } from "@tanstack/react-start";
-import { getRequestHeaders } from "@tanstack/react-start/server";
-import { auth } from "../auth/auth-server";
 
 export const authenticatedMiddleware = createMiddleware({
 	type: "function",
 }).server(async ({ next }) => {
-	const headers = getRequestHeaders();
+	// Use local import to avoid import client side
+	const { getRequest } = await import("@tanstack/react-start/server");
+	const { auth } = await import("../auth/auth-server");
+
+	const headers = getRequest().headers;
 	if (!headers) {
 		throw new Error("Unauthorized: No request headers");
 	}

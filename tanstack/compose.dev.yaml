@@ -3,16 +3,24 @@ services:
     build: .
     ports:
       - "3000:3000"
-    volumes:
-      - .:/app
-      - /app/node_modules
     env_file:
       - .env
+    environment:
+      - NODE_ENV=development
     depends_on:
-      - db
-    command: sh -c "pnpm db:migrate && pnpm dev --host"
-    restart: on-failure
+      db:
+        condition: service_healthy
+    command: sh -c "pnpm install && pnpm db:migrate && pnpm dev --host"
     tty: true
+    develop:
+      watch:
+        - action: sync
+          path: .
+          target: /app
+          ignore:
+            - node_modules/
+        - action: rebuild
+          path: pnpm-lock.yaml
 
   db:
     image: postgres:17-alpine
@@ -20,10 +28,17 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
       - POSTGRES_DB=my-new-project
+    ## Uncomment to expose the database port to the host
     # ports:
-    #   - "5432:5432"
+    #   - "5433:5432"
     volumes:
       - db-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d my-new-project"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
 
 volumes:
   db-data:

@@ -1,6 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
+import { Loader, TrashIcon } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
@@ -24,7 +25,11 @@ import {
 import { Input } from "~/components/ui/input";
 import { Skeleton } from "~/components/ui/skeleton";
 import { Textarea } from "~/components/ui/textarea";
-import { postsQueries, useCreatePost } from "~/features/posts/queries";
+import {
+	postsQueries,
+	useCreatePost,
+	useDeletePost,
+} from "~/features/posts/queries";
 import {
 	type CreatePostSchema,
 	createPostSchema,
@@ -72,6 +77,8 @@ function RouteComponent() {
 			},
 		});
 	};
+
+	const { mutate: deletePost, isPending: isDeleting } = useDeletePost();
 
 	return (
 		<div className="space-y-8">
@@ -147,32 +154,51 @@ function RouteComponent() {
 			{postsResponse && (
 				<div>
 					<h2 className="text-2xl font-bold mb-4">{t("posts.listTitle")}</h2>
-					<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-						{postsResponse
-							.sort(
-								(a, b) =>
-									new Date(b.createdAt).getTime() -
-									new Date(a.createdAt).getTime(),
-							)
-							.map((post) => (
-								<Card key={post.id}>
-									<CardHeader>
-										<CardTitle className="flex justify-between">
-											<span>{post.title}</span>
-											<span className="text-sm text-gray-500">
-												{post.createdByUser.name}
-											</span>
-										</CardTitle>
-										<CardDescription>
-											{post.createdAt.toLocaleString()}
-										</CardDescription>
-									</CardHeader>
-									<CardContent>
-										<p>{post.content}</p>
-									</CardContent>
-								</Card>
-							))}
-					</div>
+					{postsResponse.length > 0 ? (
+						<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+							{postsResponse
+								.sort(
+									(a, b) =>
+										new Date(b.createdAt).getTime() -
+										new Date(a.createdAt).getTime(),
+								)
+								.map((post) => (
+									<Card key={post.id}>
+										<CardHeader>
+											<CardTitle className="flex justify-between items-center">
+												<span>{post.title}</span>
+												<span className="text-sm text-gray-500">
+													{post.createdByUser.name}
+												</span>
+												<Button
+													variant="ghost"
+													size="icon"
+													onClick={() => deletePost({ id: post.id })}
+													className="text-destructive"
+													disabled={isDeleting}
+												>
+													{isDeleting ? (
+														<Loader className="w-4 h-4 animate-spin" />
+													) : (
+														<TrashIcon className="w-4 h-4" />
+													)}
+												</Button>
+											</CardTitle>
+											<CardDescription>
+												{post.createdAt.toLocaleString()}
+											</CardDescription>
+										</CardHeader>
+										<CardContent>
+											<p>{post.content}</p>
+										</CardContent>
+									</Card>
+								))}
+						</div>
+					) : (
+						<p className="text-muted-foreground italic">
+							{t("posts.listEmpty")}
+						</p>
+					)}
 				</div>
 			)}
 		</div>
