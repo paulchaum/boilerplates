@@ -7,20 +7,16 @@ services:
       - .env
     environment:
       - NODE_ENV=development
+      - CI=true
     depends_on:
       db:
         condition: service_healthy
     command: sh -c "pnpm install && pnpm db:migrate && pnpm dev --host"
     tty: true
-    develop:
-      watch:
-        - action: sync
-          path: .
-          target: /app
-          ignore:
-            - node_modules/
-        - action: rebuild
-          path: pnpm-lock.yaml
+    volumes:
+      - .:/app
+      - node_modules:/app/node_modules
+      - pnpm-store:/app/.pnpm-store
 
   db:
     image: postgres:17-alpine
@@ -42,3 +38,5 @@ services:
 
 volumes:
   db-data:
+  node_modules:
+  pnpm-store:

@@ -13,7 +13,6 @@ import { Route as SignupRouteImport } from './routes/signup'
 import { Route as SigninRouteImport } from './routes/signin'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as AuthenticatedProtectedRouteImport } from './routes/_authenticated/protected'
 import { Route as ApiAuthSplatRouteImport } from './routes/api/auth/$'
 import { Route as AuthenticatedPostsPostsIndexRouteImport } from './routes/_authenticated/posts/_posts.index'
 
@@ -36,11 +35,6 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AuthenticatedProtectedRoute = AuthenticatedProtectedRouteImport.update({
-  id: '/protected',
-  path: '/protected',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
 const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
   id: '/api/auth/$',
   path: '/api/auth/$',
@@ -57,7 +51,6 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/signin': typeof SigninRoute
   '/signup': typeof SignupRoute
-  '/protected': typeof AuthenticatedProtectedRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/posts': typeof AuthenticatedPostsPostsIndexRoute
 }
@@ -65,7 +58,6 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/signin': typeof SigninRoute
   '/signup': typeof SignupRoute
-  '/protected': typeof AuthenticatedProtectedRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/posts': typeof AuthenticatedPostsPostsIndexRoute
 }
@@ -75,28 +67,20 @@ export interface FileRoutesById {
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/signin': typeof SigninRoute
   '/signup': typeof SignupRoute
-  '/_authenticated/protected': typeof AuthenticatedProtectedRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/_authenticated/posts/_posts/': typeof AuthenticatedPostsPostsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths:
-    | '/'
-    | '/signin'
-    | '/signup'
-    | '/protected'
-    | '/api/auth/$'
-    | '/posts'
+  fullPaths: '/' | '/signin' | '/signup' | '/api/auth/$' | '/posts'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/signin' | '/signup' | '/protected' | '/api/auth/$' | '/posts'
+  to: '/' | '/signin' | '/signup' | '/api/auth/$' | '/posts'
   id:
     | '__root__'
     | '/'
     | '/_authenticated'
     | '/signin'
     | '/signup'
-    | '/_authenticated/protected'
     | '/api/auth/$'
     | '/_authenticated/posts/_posts/'
   fileRoutesById: FileRoutesById
@@ -139,13 +123,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/_authenticated/protected': {
-      id: '/_authenticated/protected'
-      path: '/protected'
-      fullPath: '/protected'
-      preLoaderRoute: typeof AuthenticatedProtectedRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
     '/api/auth/$': {
       id: '/api/auth/$'
       path: '/api/auth/$'
@@ -164,12 +141,10 @@ declare module '@tanstack/react-router' {
 }
 
 interface AuthenticatedRouteRouteChildren {
-  AuthenticatedProtectedRoute: typeof AuthenticatedProtectedRoute
   AuthenticatedPostsPostsIndexRoute: typeof AuthenticatedPostsPostsIndexRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
-  AuthenticatedProtectedRoute: AuthenticatedProtectedRoute,
   AuthenticatedPostsPostsIndexRoute: AuthenticatedPostsPostsIndexRoute,
 }
 
@@ -188,10 +163,11 @@ export const routeTree = rootRouteImport
   ._addFileTypes<FileRouteTypes>()
 
 import type { getRouter } from './router.tsx'
-import type { createStart } from '@tanstack/react-start'
+import type { startInstance } from './start.ts'
 declare module '@tanstack/react-start' {
   interface Register {
     ssr: true
     router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
   }
 }

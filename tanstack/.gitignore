@@ -19,5 +19,8 @@ yarn.lock
 /playwright/.cache/
 .tanstack
 
+.pnpm-store
+.tanstack
+
 .env
 PRIVATE.md

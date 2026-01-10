@@ -10,8 +10,9 @@
 		"check": "biome check --write --reporter summary",
 		"db:generate": "drizzle-kit generate",
 		"db:migrate": "drizzle-kit migrate",
-		"db:push": "drizzle-kit push",
-		"db:studio": "drizzle-kit studio"
+		"docker:exec": "docker compose -f compose.dev.yaml exec -e FORCE_COLOR=1 -it app",
+		"docker:db:generate": "pnpm docker:exec pnpm db:generate",
+		"docker:db:migrate": "pnpm docker:exec pnpm db:migrate"
 	},
 	"dependencies": {
 		"@hookform/resolvers": "^5.2.2",
