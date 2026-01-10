@@ -7,7 +7,7 @@ import {
 	Scripts,
 } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
-import { FileText, HomeIcon, LockIcon } from "lucide-react";
+import { FileText, HomeIcon } from "lucide-react";
 import type * as React from "react";
 import { DefaultCatchBoundary } from "~/components/DefaultCatchBoundary";
 import { Sidebar } from "~/components/layouts/Sidebar";
