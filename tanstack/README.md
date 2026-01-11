@@ -36,7 +36,7 @@
     ```
 6. Start the development server
     ```bash
-    docker compose -f compose.dev.yaml up --build --watch
+    docker compose -f compose.dev.yaml up --build
     ```
 7. Open the app at `http://localhost:3000`
 
