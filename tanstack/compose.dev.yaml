@@ -1,6 +1,7 @@
 services:
   app:
     build: .
+    dockerfile: Dockerfile.dev
     ports:
       - "3000:3000"
     env_file:
@@ -23,14 +24,14 @@ services:
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
-      - POSTGRES_DB=my-new-project
+      - POSTGRES_DB=postgres
     ## Uncomment to expose the database port to the host
     # ports:
     #   - "5433:5432"
     volumes:
       - db-data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres -d my-new-project"]
+      test: ["CMD-SHELL", "pg_isready -U postgres -d postgres"]
       interval: 5s
       timeout: 5s
       retries: 5

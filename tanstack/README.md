@@ -73,7 +73,7 @@ docker compose -f compose.dev.yaml down
         -p 5433:5432 \
         -e POSTGRES_USER=postgres \
         -e POSTGRES_PASSWORD=postgres \
-        -e POSTGRES_DB=my-new-project \
+        -e POSTGRES_DB=postgres \
         -v /path/to/db/data:/var/lib/postgresql/data \
         postgres:latest \
         -c log_statement=all
