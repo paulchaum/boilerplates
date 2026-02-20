@@ -12,7 +12,9 @@
 - Lefthook
 - React i18next
 
-## How to run with Docker Compose (Recommended)
+## Development
+
+### Start Development Server
 
 1. Clone the repository
     ```bash
@@ -45,57 +47,7 @@ To stop the stack:
 docker compose -f compose.dev.yaml down
 ```
 
-## How to run without Docker Compose
-
-1. Clone the repository
-    ```bash
-    npx gitpick https://github.com/paulchaum/boilerplates/tree/main/tanstack my-app
-    ```
-2. Init git repository
-    ```bash
-    git init
-    ```
-3. Install dependencies
-    ```bash
-    pnpm install
-    ```
-4. Set up git hooks with lefthook
-    ```bash
-    pnpm lefthook install
-    ```
-5. Copy `.env.example` to `.env` and fill in the values
-6. Start Postgres
-    ```bash
-    docker run \
-        -it \
-        --rm \
-        --name my-new-project-db \
-        -p 5433:5432 \
-        -e POSTGRES_USER=postgres \
-        -e POSTGRES_PASSWORD=postgres \
-        -e POSTGRES_DB=postgres \
-        -v /path/to/db/data:/var/lib/postgresql/data \
-        postgres:latest \
-        -c log_statement=all
-    ```
-    `/path/to/db/data` is the path to the directory where the database data will be stored.
-    It must be outside of the project directory.
-7. Apply migrations
-    ```bash
-    npx drizzle-kit migrate
-    ```
-8. Start the server
-    ```bash
-    pnpm dev
-    ```
-9. Lint the code
-    ```bash
-    pnpm check
-    ```
-
-## How to migrate
-
-### With Docker Compose
+### How to migrate
 
 1. Add a new migration
     ```bash
@@ -106,25 +58,22 @@ docker compose -f compose.dev.yaml down
     pnpm docker:db:migrate
     ```
 
-### Without Docker Compose
+### Install a new dependency
 
-1. Add a new migration
+1. Use `pnpm` to install a new dependency. Example:
     ```bash
-    npx drizzle-kit generate --name <migration-name>
+    pnpm add <package-name>
     ```
-2. Run the migration
+2. Then restart the server to see the changes:
     ```bash
-    npx drizzle-kit migrate
+    docker compose -f compose.dev.yaml restart app
     ```
 
-## Install a new dependency
+## Production
 
-Use `pnpm` to install a new dependency. Example:
-```bash
-pnpm add <package-name>
-```
+### Start Production Server
 
-If you are running the development server with Docker Compose, you need to restart the server to see the changes:
+Start the production server:
 ```bash
-docker compose -f compose.dev.yaml restart app
+docker compose up
 ```

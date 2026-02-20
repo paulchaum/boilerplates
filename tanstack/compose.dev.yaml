@@ -1,3 +1,7 @@
+# .--------------------------------------.
+# | Docker Compose for DEVELOPMENT build |
+# '--------------------------------------'
+
 services:
   app:
     build: .
