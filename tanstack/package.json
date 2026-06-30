@@ -11,7 +11,7 @@
 		"db:generate": "drizzle-kit generate",
 		"db:migrate": "drizzle-kit migrate",
 		"docker:exec": "docker compose -f compose.dev.yaml exec -e FORCE_COLOR=1 -it app",
-		"docker:db:generate": "pnpm docker:exec pnpm db:generate",
+		"docker:db:generate": "docker compose -f compose.dev.yaml exec -e FORCE_COLOR=1 -it app sh -c 'pnpm db:generate \"$@\" && chown -R node:node drizzle' --",
 		"docker:db:migrate": "pnpm docker:exec pnpm db:migrate"
 	},
 	"dependencies": {
