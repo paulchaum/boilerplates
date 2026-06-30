@@ -1,3 +1,8 @@
+colors: false
+output:
+  - summary
+  - failure
+
 pre-commit:
   commands:
     check:
